@@ -52,7 +52,6 @@ public class MemberController {
             return "member/login";
         }
 
-        // 게시판 연결
         return "redirect:/boards";
     }
 
@@ -111,10 +110,5 @@ public class MemberController {
         memberService.deleteMember(memberId);
 
         return "redirect:/";
-    }
-
-    @GetMapping("/board")
-    public String list() {
-        return "board/list";
     }
 }
