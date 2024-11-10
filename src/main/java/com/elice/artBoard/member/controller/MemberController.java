@@ -91,12 +91,22 @@ public class MemberController {
         Member member = memberService.findMember(memberId);
 
         model.addAttribute("findMember", member);
+        model.addAttribute("memberId", memberId);
 
         return "member/update";
     }
 
     @PutMapping("/edit/{memberId}")
-    public String update(@PathVariable Integer memberId, MemberPostDto memberPostDto) {
+    public String update(@PathVariable Integer memberId,
+                         @ModelAttribute("findMember") @Validated MemberPostDto memberPostDto,
+                         BindingResult result,
+                         Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("memberId", memberId);
+
+            return "member/update";
+        }
+
         Member member = memberMapper.MemberPostDtoToMember(memberPostDto);
         member.setMemberId(memberId);
 
