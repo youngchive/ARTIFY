@@ -13,3 +13,7 @@
             color: #888; /* 더 보기 좋은 색상 */
             font-weight: 500; /* 약간 더 굵게 */
         }
+
+.error-message {
+    color: red;
+}
