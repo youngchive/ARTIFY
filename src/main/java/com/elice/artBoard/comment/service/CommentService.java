@@ -1,11 +1,9 @@
 package com.elice.artBoard.comment.service;
 
-import com.elice.artBoard.board.dto.ResponseBoardForm;
 import com.elice.artBoard.comment.domain.Comment;
 import com.elice.artBoard.comment.dto.RequestCommentForm;
 import com.elice.artBoard.comment.dto.ResponseCommentDto;
 import com.elice.artBoard.comment.repository.CommentRepository;
-import com.elice.artBoard.member.entity.Member;
 import com.elice.artBoard.member.repository.MemberRepository;
 import com.elice.artBoard.post.entity.Post;
 import com.elice.artBoard.post.repository.PostRepository;
@@ -56,7 +54,7 @@ public class CommentService {
     public List<ResponseCommentDto> findComments(Long postId) {
         List<Comment> comments = commentRepository.findAll(postId);
         return comments.stream()
-                .map(c -> new ResponseCommentDto(c.getId(),1, c.getContent(), c.getCreateDate(), c.getEditDate()))
+                .map(c -> new ResponseCommentDto(c.getId(), 1, c.getContent(), c.getCreateDate(), c.getEditDate()))
                 .toList();
     }
 }

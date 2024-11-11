@@ -1,10 +1,7 @@
 package com.elice.artBoard.comment.controller;
 
-import com.elice.artBoard.comment.domain.Comment;
 import com.elice.artBoard.comment.dto.RequestCommentForm;
 import com.elice.artBoard.comment.service.CommentService;
-import com.elice.artBoard.post.entity.Post;
-import com.elice.artBoard.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
