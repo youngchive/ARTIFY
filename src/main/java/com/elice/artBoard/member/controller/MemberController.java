@@ -66,6 +66,18 @@ public class MemberController {
         return "redirect:/boards";
     }
 
+    // 로그아웃
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false); // 세션이 없으면 null 리턴
+
+        if(session != null) {
+            session.invalidate();
+        }
+
+        return "redirect:/";
+    }
+
     // 회원 가입 화면
     @GetMapping("/create")
     public String createForm(Model model) {
@@ -130,6 +142,6 @@ public class MemberController {
     public String deleteMember(@PathVariable Integer memberId) {
         memberService.deleteMember(memberId);
 
-        return "redirect:/";
+        return "redirect:/logout";
     }
 }
