@@ -61,11 +61,14 @@
             <td class="text-wrap text-center" style="width: 300px; word-break: break-all;"
                 th:text="${comment.getContent()}"></td>
             <td class="text-center" style="vertical-align: middle" th:text="${comment.getMemberId()}"></td>
-            <td class="text-center" style="vertical-align: middle">
-                <button class="btn btn-primary ms-3" style="background-color: #CB8BFF; color: white; border: none;"
+            <td class="text-center" style="vertical-align: middle" th:if="${comment.getMemberId() == member.getMemberId()}">
+                <button class="btn btn-sm btn-primary ms-3" style="background-color: #CB8BFF; color: white; border: none;"
                         th:onclick="|edit([[${comment.getCommentId()}]], [[${post.getId()}]])|">수정</button>
-                <button class="btn btn-danger ms-3" style="background-color: #CDCDCD; color: white; border: none;"
+                <button class="btn btn-sm btn-danger ms-3" style="background-color: #CDCDCD; color: white; border: none;"
                         th:onclick="|deleteComment([[${comment.getCommentId()}]])|">삭제</button>
+            </td>
+            <td class="text-center" style="vertical-align: middle" th:unless="${comment.getMemberId() == member.getMemberId()}">
+                &nbsp;
             </td>
         </tr>
         </tbody>

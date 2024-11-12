@@ -48,7 +48,7 @@ public class PostController {
 
     // 특정 게시글 조회
     @GetMapping("/{postId}")
-    public String getPost(@PathVariable Long postId, Model model) {
+    public String getPost(@PathVariable Long postId, Model model, @SessionAttribute(name = "member", required = false) Member member) {
         Post post = postService.getPost(postId);
         PostImage postImage = postImageService.findImageByPostId(post);  // 게시글에 연결된 이미지 찾기
 
@@ -61,8 +61,8 @@ public class PostController {
         }
 
         //댓글 model에 추가
+        model.addAttribute("member", member);
         model.addAttribute("comments", commentService.findComments(postId));
-
         return "post/detail";  // 게시글 상세 페이지로 이동
     }
 

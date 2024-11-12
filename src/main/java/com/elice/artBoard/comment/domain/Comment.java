@@ -29,13 +29,14 @@ public class Comment extends BaseEntity {
     public Member member;
 
 
-    public Comment(String content, Post post) {
+    private Comment(String content, Post post, Member member) {
         this.content = content;
         this.post = post;
+        this.member = member;
     }
 
-    public static Comment create(Post post, String content) {
-        return new Comment(content, post);
+    public static Comment create(Post post, String content, Member member) {
+        return new Comment(content, post, member);
     }
 
     public void update(String content) {
