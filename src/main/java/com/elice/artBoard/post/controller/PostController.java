@@ -3,7 +3,6 @@ package com.elice.artBoard.post.controller;
 import com.elice.artBoard.board.service.BoardService;
 import com.elice.artBoard.comment.service.CommentService;
 import com.elice.artBoard.member.entity.Member;
-import com.elice.artBoard.member.service.MemberService;
 import com.elice.artBoard.post.entity.Post;
 import com.elice.artBoard.post.entity.PostImage;
 import com.elice.artBoard.post.entity.PostPostDto;
@@ -33,7 +32,6 @@ import java.util.List;
 @RequestMapping("/posts")
 public class PostController {
 
-    private final MemberService memberService;
     private final PostService postService;
     private final PostImageService postImageService;
     private final BoardService boardService;
