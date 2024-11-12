@@ -5,6 +5,7 @@ import com.elice.artBoard.board.domain.Board;
 import com.elice.artBoard.board.domain.BoardImage;
 import com.elice.artBoard.board.dto.RequestBoardForm;
 import com.elice.artBoard.board.repository.BoardImageRepository;
+import com.elice.artBoard.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
