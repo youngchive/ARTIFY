@@ -2,7 +2,6 @@ package com.elice.artBoard.board.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.data.relational.core.sql.In;
 
 @Data
 @AllArgsConstructor

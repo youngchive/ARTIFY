@@ -1,11 +1,9 @@
 package com.elice.artBoard.board.service;
 
-import com.elice.artBoard.board.constants.DefaultImgConst;
 import com.elice.artBoard.board.domain.Board;
 import com.elice.artBoard.board.domain.BoardImage;
 import com.elice.artBoard.board.dto.RequestBoardForm;
 import com.elice.artBoard.board.repository.BoardImageRepository;
-import com.elice.artBoard.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,12 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.elice.artBoard.board.constants.DefaultImgConst.*;
+import static com.elice.artBoard.board.constants.DefaultImgConst.DEFAULT_IMAGE_NAME;
 
 @Slf4j
 @Service

@@ -6,8 +6,8 @@ import com.elice.artBoard.board.dto.RequestBoardForm;
 import com.elice.artBoard.board.service.BoardImageService;
 import com.elice.artBoard.board.service.BoardService;
 import com.elice.artBoard.member.entity.Member;
-import com.elice.artBoard.post.service.PostService;
 import com.elice.artBoard.post.entity.Post;
+import com.elice.artBoard.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
@@ -61,7 +61,7 @@ public class BoardController {
             return "board/create-form";
         }
 
-        Board board = boardService.save(form,member);
+        Board board = boardService.save(form, member);
 
         model.addAttribute("member", member);
         boardImageService.save(form, board);
