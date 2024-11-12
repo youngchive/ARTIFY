@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -34,20 +37,29 @@ public class PostController {
     private final PostService postService;
     private final PostImageService postImageService;
     private final BoardService boardService;
-    private final CommentService commentService; //CommentService 추가
+    private final CommentService commentService;
 
     // 게시글 목록 페이지
     @GetMapping
-    public String getAllPosts(@RequestParam Long boardId, Model model, @SessionAttribute(name = "memberId", required = false) Integer memberId) { // boardId를 파라미터로 받아옴
+    public String getAllPosts(@RequestParam Long boardId,
+                              @RequestParam(defaultValue = "1") int page,
+                              Model model,
+                              @SessionAttribute(name = "memberId", required = false) Integer memberId) {
         Member member = memberService.findMember(memberId);
         model.addAttribute("member", member);
 
-        List<Post> posts = postService.findPostsByBoardId(boardId);  // boardId에 해당하는 게시글을 가져옴
+        Pageable pageable = PageRequest.of(page - 1, 10);  // page-1로 시작, 한 페이지에 10개의 게시글
+        Page<Post> posts = postService.findPostsByBoardId(boardId, pageable);
+        log.info("###########Posts: {}", posts);
+
         model.addAttribute("posts", posts);
-        model.addAttribute("boardId", boardId);  // boardId를 모델에 추가
+        model.addAttribute("boardId", boardId);
+        model.addAttribute("totalPages", posts);
+        model.addAttribute("currentPage", page);
 
         return "post/list";
     }
+
 
     // 특정 게시글 조회
     @GetMapping("/{postId}")
@@ -126,6 +138,12 @@ public class PostController {
         // 리디렉션 URL에서 boardId를 경로 변수로 전달
         return "redirect:/boards/" + boardId;
     }
+
+    /*// 페이지네이션된 게시글 목록 조회
+    @GetMapping("/board/{boardId}")
+    public Page<Post> getPostsByBoardId(@PathVariable Long boardId, @RequestParam(defaultValue = "1") int page) {
+        return postService.findPostsByBoardId(boardId, page - 1);
+    }*/
 
     @ResponseBody
     @GetMapping("image/{imageId}")
