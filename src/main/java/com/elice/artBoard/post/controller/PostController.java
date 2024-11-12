@@ -3,7 +3,6 @@ package com.elice.artBoard.post.controller;
 import com.elice.artBoard.board.service.BoardService;
 import com.elice.artBoard.comment.service.CommentService;
 import com.elice.artBoard.member.entity.Member;
-import com.elice.artBoard.member.service.MemberService;
 import com.elice.artBoard.post.entity.Post;
 import com.elice.artBoard.post.entity.PostImage;
 import com.elice.artBoard.post.entity.PostPostDto;
@@ -30,7 +29,6 @@ import java.util.List;
 @RequestMapping("/posts")
 public class PostController {
 
-    private final MemberService memberService;
     private final PostService postService;
     private final PostImageService postImageService;
     private final BoardService boardService;
@@ -38,8 +36,7 @@ public class PostController {
 
     // 게시글 목록 페이지
     @GetMapping
-    public String getAllPosts(@RequestParam Long boardId, Model model, @SessionAttribute(name = "memberId", required = false) Integer memberId) { // boardId를 파라미터로 받아옴
-        Member member = memberService.findMember(memberId);
+    public String getAllPosts(@RequestParam Long boardId, Model model, @SessionAttribute(name = "member", required = false) Member member) { // boardId를 파라미터로 받아옴
         model.addAttribute("member", member);
 
         List<Post> posts = postService.findPostsByBoardId(boardId);  // boardId에 해당하는 게시글을 가져옴

@@ -6,7 +6,6 @@ import com.elice.artBoard.board.dto.RequestBoardForm;
 import com.elice.artBoard.board.service.BoardImageService;
 import com.elice.artBoard.board.service.BoardService;
 import com.elice.artBoard.member.entity.Member;
-import com.elice.artBoard.member.service.MemberService;
 import com.elice.artBoard.post.service.PostService;
 import com.elice.artBoard.post.entity.Post;
 import lombok.RequiredArgsConstructor;
@@ -34,14 +33,12 @@ import static com.elice.artBoard.board.constants.DefaultImgConst.DEFAULT_IMG_PAT
 @RequestMapping("/boards")
 public class BoardController {
 
-    private final MemberService memberService;
     private final BoardService boardService;
     private final BoardImageService boardImageService;
     private final PostService postService;
 
     @GetMapping
-    public String boardList(Model model, @SessionAttribute(name = "memberId", required = false) Integer memberId) {
-        Member member = memberService.findMember(memberId);
+    public String boardList(Model model, @SessionAttribute(name = "member", required = false) Member member) {
         model.addAttribute("member", member);
 
         model.addAttribute("list", boardService.findBoardsAndImages());
@@ -49,8 +46,7 @@ public class BoardController {
     }
 
     @GetMapping("/create")
-    public String createForm(Model model, @SessionAttribute(name = "memberId", required = false) Integer memberId) {
-        Member member = memberService.findMember(memberId);
+    public String createForm(Model model, @SessionAttribute(name = "member", required = false) Member member) {
         model.addAttribute("member", member);
 
         model.addAttribute("form", new RequestBoardForm());
@@ -59,8 +55,7 @@ public class BoardController {
 
     @PostMapping("/create")
     public String createBoard(@Validated @ModelAttribute("form") RequestBoardForm form, BindingResult bindingResult,
-                              @SessionAttribute(name = "memberId", required = false) Integer memberId, Model model) {
-        Member member = memberService.findMember(memberId);
+                              @SessionAttribute(name = "member", required = false) Member member, Model model) {
         model.addAttribute("member", member);
 
         if (bindingResult.hasErrors()) {
@@ -73,8 +68,7 @@ public class BoardController {
     }
 
     @GetMapping("/put/{boardId}")
-    public String updateForm(@PathVariable Long boardId, Model model, @SessionAttribute(name = "memberId", required = false) Integer memberId) {
-        Member member = memberService.findMember(memberId);
+    public String updateForm(@PathVariable Long boardId, Model model, @SessionAttribute(name = "member", required = false) Member member) {
         model.addAttribute("member", member);
 
         Board board = boardService.findBoard(boardId);
@@ -84,8 +78,7 @@ public class BoardController {
 
     @PutMapping("/put/{boardId}")
     public String updateBoard(@PathVariable Long boardId, @Validated @ModelAttribute("form") RequestBoardForm form, BindingResult bindingResult,
-                              @SessionAttribute(name = "memberId", required = false) Integer memberId, Model model) {
-        Member member = memberService.findMember(memberId);
+                              @SessionAttribute(name = "member", required = false) Member member, Model model) {
         model.addAttribute("member", member);
 
         if (bindingResult.hasErrors()) {
@@ -114,8 +107,7 @@ public class BoardController {
 
     // 게시글 연결
     @GetMapping("/{boardId}")
-    public String getBoard(@PathVariable Long boardId, Model model, @SessionAttribute(name = "memberId", required = false) Integer memberId) {
-        Member member = memberService.findMember(memberId);
+    public String getBoard(@PathVariable Long boardId, Model model, @SessionAttribute(name = "member", required = false) Member member) {
         model.addAttribute("member", member);
 
         // boardId를 사용하여 해당 게시판에 연결된 게시글 목록을 가져옴

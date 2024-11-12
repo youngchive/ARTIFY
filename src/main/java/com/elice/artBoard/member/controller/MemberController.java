@@ -53,10 +53,9 @@ public class MemberController {
             httpServletRequest.getSession().invalidate(); // 세션을 생성하기 전 기존 세션 파기
             HttpSession session = httpServletRequest.getSession(true); // 세션이 없으면 새로 생성
             // 세션에 회원 ID 저장
-            session.setAttribute("memberId", result.getMemberId());
+            session.setAttribute("member", result);
             session.setMaxInactiveInterval(60 * 30); // 세션 30분동안 유지
 
-            model.addAttribute("loginMember", result);
         } catch (MemberNotFoundException e) { // 로그인 실패 시
             model.addAttribute("msg", e.getMessage());
 
