@@ -16,19 +16,21 @@
         </div>
 
         <div class="card p-4 shadow-sm text-center">
-            <form th:action="@{'/edit/' + ${findMember.memberId}}" method="post">
+            <form th:action="@{'/edit/' + ${memberId}}" method="post" th:object="${findMember}">
                 <input type="hidden" name="_method" value="put" />
                 <div class="mb-3">
-                    <input type="text" name="name" th:value="${findMember.name}" class="form-control"/>
+                    <input type="text" th:field="*{name}" class="form-control"/>
                 </div>
                 <div class="mb-3">
-                    <input type="email" name="email" th:value="${findMember.email}" class="form-control"/>
+                    <input type="email" th:field="*{email}" class="form-control" th:errorclass="border-danger"/>
+                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message">이메일 오류</div>
                 </div>
                 <div class="mb-3">
-                    <input type="text" name="password" th:value="${findMember.password}" class="form-control"/>
+                    <input type="text" th:field="*{password}" class="form-control" th:errorclass="border-danger"/>
+                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message">패스워드 오류</div>
                 </div>
                 <div class="mb-3">
-                    <input type="text" name="nickname" th:value="${findMember.nickname}" class="form-control"/>
+                    <input type="text" th:field="*{nickname}" class="form-control"/>
                 </div>
 
                 <button type="submit" class="btn custom-button w-100">수정</button>

@@ -5,8 +5,10 @@ import com.elice.artBoard.board.domain.BoardImage;
 import com.elice.artBoard.board.dto.RequestBoardForm;
 import com.elice.artBoard.board.service.BoardImageService;
 import com.elice.artBoard.board.service.BoardService;
-import com.elice.artBoard.post.entity.Post;
+import com.elice.artBoard.member.entity.Member;
+import com.elice.artBoard.member.service.MemberService;
 import com.elice.artBoard.post.service.PostService;
+import com.elice.artBoard.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
@@ -32,24 +34,34 @@ import static com.elice.artBoard.board.constants.DefaultImgConst.DEFAULT_IMG_PAT
 @RequestMapping("/boards")
 public class BoardController {
 
+    private final MemberService memberService;
     private final BoardService boardService;
     private final BoardImageService boardImageService;
     private final PostService postService;
 
     @GetMapping
-    public String boardList(Model model) {
+    public String boardList(Model model, @SessionAttribute(name = "memberId", required = false) Integer memberId) {
+        Member member = memberService.findMember(memberId);
+        model.addAttribute("member", member);
+
         model.addAttribute("list", boardService.findBoardsAndImages());
         return "/board/boards";
     }
 
     @GetMapping("/create")
-    public String createForm(Model model) {
+    public String createForm(Model model, @SessionAttribute(name = "memberId", required = false) Integer memberId) {
+        Member member = memberService.findMember(memberId);
+        model.addAttribute("member", member);
+
         model.addAttribute("form", new RequestBoardForm());
         return "board/create-form";
     }
 
     @PostMapping("/create")
-    public String createBoard(@Validated @ModelAttribute("form") RequestBoardForm form, BindingResult bindingResult) {
+    public String createBoard(@Validated @ModelAttribute("form") RequestBoardForm form, BindingResult bindingResult,
+                              @SessionAttribute(name = "memberId", required = false) Integer memberId, Model model) {
+        Member member = memberService.findMember(memberId);
+        model.addAttribute("member", member);
 
         if (bindingResult.hasErrors()) {
             return "board/create-form";
@@ -61,14 +73,20 @@ public class BoardController {
     }
 
     @GetMapping("/put/{boardId}")
-    public String updateForm(@PathVariable Long boardId, Model model) {
+    public String updateForm(@PathVariable Long boardId, Model model, @SessionAttribute(name = "memberId", required = false) Integer memberId) {
+        Member member = memberService.findMember(memberId);
+        model.addAttribute("member", member);
+
         Board board = boardService.findBoard(boardId);
         model.addAttribute("form", new RequestBoardForm(board.getTitle(), board.getDescription(), null));
         return "board/edit-form";
     }
 
     @PutMapping("/put/{boardId}")
-    public String updateBoard(@PathVariable Long boardId, @Validated @ModelAttribute("form") RequestBoardForm form, BindingResult bindingResult) {
+    public String updateBoard(@PathVariable Long boardId, @Validated @ModelAttribute("form") RequestBoardForm form, BindingResult bindingResult,
+                              @SessionAttribute(name = "memberId", required = false) Integer memberId, Model model) {
+        Member member = memberService.findMember(memberId);
+        model.addAttribute("member", member);
 
         if (bindingResult.hasErrors()) {
             return "board/edit-form";
@@ -96,7 +114,10 @@ public class BoardController {
 
     // 게시글 연결
     @GetMapping("/{boardId}")
-    public String getBoard(@PathVariable Long boardId, Model model) {
+    public String getBoard(@PathVariable Long boardId, Model model, @SessionAttribute(name = "memberId", required = false) Integer memberId) {
+        Member member = memberService.findMember(memberId);
+        model.addAttribute("member", member);
+
         // boardId를 사용하여 해당 게시판에 연결된 게시글 목록을 가져옴
         List<Post> posts = postService.findPostsByBoardId(boardId);  // 게시판에 해당하는 게시글 목록을 가져오는 메서드
 
