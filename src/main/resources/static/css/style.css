@@ -4,16 +4,17 @@
             font-weight: bold;
         }
 
-        .custom-button:hover {
-            background-color: #c491f5;
-        }
+.custom-button:hover {
+    background-color: #c491f5;
+}
 
-        .form-control::placeholder {
-            text-align: center; /* 중앙 정렬 */
-            color: #888; /* 더 보기 좋은 색상 */
-            font-weight: 500; /* 약간 더 굵게 */
-        }
+.form-control::placeholder {
+    text-align: center;
+    color: #888;
+    font-weight: 500;
+}
 
 .error-message {
     color: red;
+    font-size: 12px;
 }
