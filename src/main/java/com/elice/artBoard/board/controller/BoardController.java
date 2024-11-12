@@ -6,8 +6,8 @@ import com.elice.artBoard.board.dto.RequestBoardForm;
 import com.elice.artBoard.board.service.BoardImageService;
 import com.elice.artBoard.board.service.BoardService;
 import com.elice.artBoard.member.entity.Member;
-import com.elice.artBoard.post.service.PostService;
 import com.elice.artBoard.post.entity.Post;
+import com.elice.artBoard.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
@@ -43,34 +43,35 @@ public class BoardController {
     @GetMapping
     public String boardList(Model model, @SessionAttribute(name = "member", required = false) Member member) {
         model.addAttribute("member", member);
-
         model.addAttribute("list", boardService.findBoardsAndImages());
         return "/board/boards";
     }
 
     @GetMapping("/create")
     public String createForm(Model model, @SessionAttribute(name = "member", required = false) Member member) {
-        model.addAttribute("member", member);
 
+        model.addAttribute("member", member);
         model.addAttribute("form", new RequestBoardForm());
+
         return "board/create-form";
     }
 
     @PostMapping("/create")
     public String createBoard(@Validated @ModelAttribute("form") RequestBoardForm form, BindingResult bindingResult,
                               @SessionAttribute(name = "member", required = false) Member member, Model model) {
-        model.addAttribute("member", member);
 
         if (bindingResult.hasErrors()) {
             return "board/create-form";
         }
 
-        Board board = boardService.save(form);
+        Board board = boardService.save(form, member);
+
+        model.addAttribute("member", member);
         boardImageService.save(form, board);
         return "redirect:/boards";
     }
 
-    @GetMapping("/put/{boardId}")
+    @GetMapping("/edit/{boardId}")
     public String updateForm(@PathVariable Long boardId, Model model, @SessionAttribute(name = "member", required = false) Member member) {
         model.addAttribute("member", member);
 
@@ -79,24 +80,25 @@ public class BoardController {
         return "board/edit-form";
     }
 
-    @PutMapping("/put/{boardId}")
+    @PutMapping("/edit/{boardId}")
     public String updateBoard(@PathVariable Long boardId, @Validated @ModelAttribute("form") RequestBoardForm form, BindingResult bindingResult,
                               @SessionAttribute(name = "member", required = false) Member member, Model model) {
-        model.addAttribute("member", member);
 
         if (bindingResult.hasErrors()) {
             return "board/edit-form";
         }
 
-        Board board = boardService.update(boardId, form);
+        Board board = boardService.update(boardId, form, member);
         boardImageService.update(board, form);
+
+        model.addAttribute("member", member);
         return "redirect:/boards";
     }
 
     @DeleteMapping("/delete/{boardId}")
-    public String deleteBoard(@PathVariable Long boardId) {
-        boardImageService.delete(boardId);
-        boardService.delete(boardId);
+    public String deleteBoard(@PathVariable Long boardId, @SessionAttribute(name = "member", required = false) Member member) {
+
+        boardService.delete(boardId, member);
         return "redirect:/boards";
     }
 

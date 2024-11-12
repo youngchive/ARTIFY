@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.elice.artBoard.board.constants.DefaultImgConst.DEFAULT_IMAGE_NAME;
+
 @Slf4j
 @Service
 @Transactional
@@ -53,7 +55,14 @@ public class BoardImageService {
             return;
         }
 
-        boardImageRepository.delete(optionalBoardImage.get());
+        BoardImage boardImage = optionalBoardImage.get();
+
+        //이미지가 기본 이미지가 아닌 경우 저장되어 있는 이미지 삭제
+        if (!boardImage.getImageName().equals(DEFAULT_IMAGE_NAME)) {
+            File file = new File(boardImage.getImagePath());
+            file.delete();
+        }
+        boardImageRepository.delete(boardImage);
     }
 
     public void update(Board board, RequestBoardForm form) {

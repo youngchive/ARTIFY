@@ -11,4 +11,5 @@ public class ResponseBoardForm {
     private String title;
     private String description;
     private Long imageId;
+    private Integer memberId;
 }
