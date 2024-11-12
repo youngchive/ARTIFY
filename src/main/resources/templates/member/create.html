@@ -21,6 +21,7 @@
             <form action="" method="post" th:object="${memberCreate}">
                 <div class="mb-3">
                     <input type="text" th:field="*{name}" name="name" placeholder="이름" class="form-control" required>
+                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message">이름 오류</div>
                 </div>
                 <div class="mb-3">
                     <input type="email" th:field="*{email}" name="email" placeholder="이메일" class="form-control" required>

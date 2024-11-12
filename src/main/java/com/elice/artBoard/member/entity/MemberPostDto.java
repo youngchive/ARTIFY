@@ -10,6 +10,7 @@ import lombok.*;
 @Getter @Setter
 public class MemberPostDto {
     @NotBlank(message = "이름을 입력해 주세요")
+    @Pattern(regexp = "^[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]*$", message = "공백 및 특수문자는 허용되지 않습니다.")
     private String name;
 
     @NotBlank(message = "이메일을 입력해 주세요")
