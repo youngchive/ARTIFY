@@ -10,19 +10,24 @@ import lombok.*;
 @Getter @Setter
 public class MemberPostDto {
     @NotBlank(message = "이름을 입력해 주세요")
-    @Pattern(regexp = "^[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]*$", message = "공백 및 특수문자는 허용되지 않습니다.")
+    @Size(max = 25, message = "25자 이하로 작성해 주세요")
+    @Pattern(regexp = "^[a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]*$", message = "올바른 이름을 입력해 주세요")
     private String name;
 
     @NotBlank(message = "이메일을 입력해 주세요")
+    @Size(max = 50, message = "50자 이하로 작성해 주세요")
     @Pattern(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
             message = "올바른 이메일 형식이 아닙니다.")
     private String email;
 
     @NotBlank(message = "닉네임을 입력해 주세요")
+    @Size(max = 25, message = "25자 이하로 작성해 주세요")
     private String nickname;
 
     @NotBlank(message = "비밀번호를 입력해 주세요")
     @Size(min = 8, max = 15, message = "8자 이상 15자 이하로 작성해 주세요")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\W)(?!.* ).{8,15}$",
+            message = "숫자, 영문 대소문자 각 1개 이상씩 입력해 주세요")
     private String password;
 
     // 회원 생성, 수정 시간 ?
