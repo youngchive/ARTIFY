@@ -9,6 +9,9 @@ import com.elice.artBoard.post.repository.PostRepository;
 import com.elice.artBoard.post.service.PostImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,9 +27,9 @@ public class PostService {
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
 
-    // 모든 게시글 조회
-    public List<Post> findPostsByBoardId(Long boardId) {
-        return postRepository.findByBoardId(boardId);  // Board와 연결된 게시글 조회
+    // 페이지네이션된 모든 게시글 조회
+    public Page<Post> findPostsByBoardId(Long boardId, Pageable pageable) {
+        return postRepository.findByBoardId(boardId, pageable);
     }
 
     // 특정 게시글 조회
@@ -67,11 +70,9 @@ public class PostService {
     }
 
     public PostPostDto getPostPostDto(Long postId) {
-        Post post = getPost(postId);  // 게시글 조회
-        Long boardId = post.getBoard().getId();  // 게시판 ID 추출
+        Post post = getPost(postId);
+        Long boardId = post.getBoard().getId();
         return new PostPostDto(post.getTitle(), post.getContent(), boardId);
     }
-
-
 
 }

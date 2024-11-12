@@ -13,6 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -105,19 +108,27 @@ public class BoardController {
         return getResponse(image);
     }
 
-    // 게시글 연결
+    // 게시글 목록 페이지
     @GetMapping("/{boardId}")
-    public String getBoard(@PathVariable Long boardId, Model model, @SessionAttribute(name = "member", required = false) Member member) {
+    public String getBoard(@PathVariable Long boardId,
+                           @RequestParam(defaultValue = "1") int page,  // 페이지 번호 파라미터 추가
+                           Model model,
+                           @SessionAttribute(name = "memberId", required = false) Integer memberId) {
+
+        Member member = memberService.findMember(memberId);
         model.addAttribute("member", member);
 
-        // boardId를 사용하여 해당 게시판에 연결된 게시글 목록을 가져옴
-        List<Post> posts = postService.findPostsByBoardId(boardId);  // 게시판에 해당하는 게시글 목록을 가져오는 메서드
+        Pageable pageable = PageRequest.of(page - 1, 10);  // 한 페이지에 10개의 게시글을 표시
 
-        // 게시글 목록을 모델에 추가하여 전달
+        Page<Post> posts = postService.findPostsByBoardId(boardId, pageable);
+        log.info("###########Posts: {}", posts);
+
         model.addAttribute("posts", posts);
+        model.addAttribute("boardId", boardId);
+        model.addAttribute("totalPages", posts);
+        model.addAttribute("currentPage", page);
 
-        // 게시판 상세 페이지 대신 게시글 목록 페이지로 이동
-        return "post/list";  // 게시판에 속한 게시글 목록을 보여주는 뷰로 이동
+        return "post/list";
     }
 
     private ResponseEntity getResponse(BoardImage image) throws MalformedURLException {
