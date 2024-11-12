@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -46,7 +45,6 @@ public class PostImageService {
     }
 
     public void delete(Long postId) {
-
         Optional<PostImage> optionalPostImage = postImageRepository.findByPostId(postId);
 
         if (optionalPostImage.isEmpty()) {
@@ -69,13 +67,8 @@ public class PostImageService {
         return postImageRepository.findByPostId(post.getId()).orElse(null);
     }
 
-
     public PostImage findByImgId(Long postImageId) {
         return postImageRepository.findById(postImageId).get();
-    }
-
-    public Optional<PostImage> findByPostId(Long bordId) {
-        return postImageRepository.findByPostId(bordId);
     }
 
     private String getImagePath(String originalFilename) {

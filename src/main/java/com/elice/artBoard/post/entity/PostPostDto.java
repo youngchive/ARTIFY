@@ -4,8 +4,6 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
-@Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,7 +11,6 @@ public class PostPostDto {
     private String title; // 게시글 제목
     private String content; // 게시글 내용
     private Long boardId;  // boardId 필드 추가
-
     private MultipartFile image;
 
     public PostPostDto(String title, String content, Long boardId) {

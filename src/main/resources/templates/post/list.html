@@ -66,10 +66,15 @@
 <body>
 <div class="container">
     <!-- Logo Section -->
-    <div class="d-flex justify-content-center mt-5">
-        <img th:src="@{/images/logo.png}" alt="Logo"/>
+    <div class="d-flex justify-content-center mt-5 align-items-center">
+        <img th:src="@{/images/logo.png}" alt="Logo" style="margin-left: 360px;margin-right: 130px;"/>
+        <div class="d-flex align-items-center">
+            <div th:text="${member.name} + '님'" class="me-3"></div>
+            <a th:href="@{'/' + ${member.memberId}}" class="btn" style="background-color: #CB8BFF; color: white; border: none; margin-right: 5px;">내 정보</a>
+            <a th:href="@{/logout}" class="btn" style="background-color: #CB8BFF; color: white; border: none;">로그아웃</a>
+        </div>
     </div>
-
+    <button class="btn btn-sm btn-outline-secondary" type="button" onclick="window.location.href='/boards'" style="margin-left: 16px;">&lt; 게시판 목록</button>
     <!-- Title and Create Post Button -->
     <div class="d-flex justify-content-between m-3">
         <h2 class="text-center mt-3">게시글 목록</h2>
@@ -91,7 +96,7 @@
                 <tr th:each="post : ${posts}">
                     <!-- 제목을 클릭하면 해당 게시물의 상세 페이지로 이동 -->
                     <td><a class="d-inline-block text-truncate" style="max-width: 200px;" th:href="@{/posts/{postId}(postId=${post.id})}" th:text="${post.title}"></a></td>
-                    <td class="d-inline-block text-truncate" style="max-width: 500px;" th:text="${post.content}"></td>
+                    <td class="d-inline-block text-truncate" style="max-width: 600px;" th:text="${post.content}"></td>
                     <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}"></td>
                 </tr>
                 </tbody>

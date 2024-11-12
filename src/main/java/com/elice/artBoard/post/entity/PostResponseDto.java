@@ -6,8 +6,6 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Data
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostResponseDto {
@@ -18,6 +16,6 @@ public class PostResponseDto {
     private LocalDateTime editedAt; // 수정 시간
     private int memberId; // 회원키(외래키)
     private int boardId; // 게시판키(외래키)
-
     private Long imageId;
+
 }

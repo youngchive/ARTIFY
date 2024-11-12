@@ -10,13 +10,15 @@
     <div class="d-flex justify-content-center mt-5">
         <img th:src="@{/images/logo.png}"/>
     </div>
+    <button class="btn btn-sm btn-outline-secondary" type="button" th:onclick="'window.location.href=\'/boards/\' + ' + ${boardId}">&lt; 게시글 목록</button>
 </div>
+<br>
 <div class="d-flex justify-content-center">
     <div class="container">
         <!--        <h1>게시글 상세</h1>-->
         <h2 th:text="${post.title}"></h2>
         <div class="d-flex justify-content-end">
-            <p>작성일: <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+            <p style="margin-right: 10px;">작성일: <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
             <p>수정일: <span th:text="${#temporals.format(post.editedAt, 'yyyy-MM-dd HH:mm')}"></span></p>
         </div>
 
@@ -24,7 +26,7 @@
         <!-- 이미지 표시 -->
         <div class="text-center">
             <th:block th:if="${imageId != null}">
-                <img width="20%" height="20%" th:src="@{/posts/image/{imageId}(imageId=${imageId})}" alt="게시글 이미지">
+                <img class="img-fluid" th:src="@{/posts/image/{imageId}(imageId=${imageId})}" alt="게시글 이미지" style="max-height: 300px; width: auto;">
             </th:block>
         </div>
 
@@ -32,8 +34,6 @@
         <div class="border p-3">
             <p th:text="${post.content}"></p>
         </div>
-        <!--        <p>작성일: <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>-->
-        <!--        <p>수정일: <span th:text="${#temporals.format(post.editedAt, 'yyyy-MM-dd HH:mm')}"></span></p>-->
 
         <br>
         <div class="d-flex justify-content-center">
@@ -47,12 +47,9 @@
                 </button>
             </form>
         </div>
-        <!--        -->
-        <!--        <br><br>-->
-        <!--        <a href="/posts">게시글 목록</a>-->
     </div>
 </div>
-
+<br>
 <!-- 댓글 list -->
 <div class="container">
     <h2 class="mb-3">댓글</h2>
@@ -68,7 +65,7 @@
                 <button class="btn btn-primary ms-3" style="background-color: #CB8BFF; color: white; border: none;"
                         th:onclick="|edit([[${comment.getCommentId()}]], [[${post.getId()}]])|">수정</button>
                 <button class="btn btn-danger ms-3" style="background-color: #CDCDCD; color: white; border: none;"
-                th:onclick="|deleteComment([[${comment.getCommentId()}]])|">삭제</button>
+                        th:onclick="|deleteComment([[${comment.getCommentId()}]])|">삭제</button>
             </td>
         </tr>
         </tbody>
@@ -77,16 +74,16 @@
 
 <!-- 댓글 추가 -->
 <div class="container">
-    <h2 class="mb-3">댓글 추가</h2>
+    <h4 class="mb-3">댓글 추가</h4>
     <form th:action="@{/comments/create}" method="post">
         <input type="hidden" name="postId" th:value="${post.getId()}">
-        <textarea style="height: 200px; resize: none" class="form-control" id="content" name="content"></textarea>
+        <textarea style="height: 100px; resize: none" class="form-control" id="content" name="content"></textarea>
         <button class="btn mt-3" style="width: 10%; background-color: #CB8BFF; color: white; border: none;"
                 type="submit">추가
         </button>
     </form>
 </div>
-
+<br><br>
 
 <script th:inline="javascript">
 
@@ -144,7 +141,6 @@
     }
 
     // 삭제 확인을 위한 JavaScript 함수
-
     function confirmDelete() {
         return confirm("정말로 삭제하시겠습니까?");
     }
