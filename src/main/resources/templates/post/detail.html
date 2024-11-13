@@ -59,7 +59,7 @@
             <td th:text="${commentStat.count}"></td>
             <td class="text-center" style="vertical-align: middle">
                 <div style="display: flex; align-items: center; justify-content: center;">
-                    <span style="width: 120px;" th:text="${#temporals.format(comment.getCreateDate(), 'yy-MM-dd hh:MM')}"></span>
+                    <span style="width: 120px;" th:text="${#temporals.format(comment.getCreateDate(), 'yy-MM-dd HH:MM')}"></span>
                     <span th:if="${comment.getUpdateTime() == '수정사항 없음'}" th:text="${comment.getUpdateTime()}"
                           class="ms-3" style="color: transparent; font-size: 0.8em; width: 120px; text-align: left"></span>
                     <span th:unless="${comment.getUpdateTime() == '수정사항 없음'}" th:text="${comment.getUpdateTime()}"
