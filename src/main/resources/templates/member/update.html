@@ -37,7 +37,11 @@
                     <input type="text" th:field="*{nickname}" class="form-control" maxlength="25" required/>
                 </div>
 
-                <button type="submit" class="btn custom-button w-100">수정</button>
+                <div class="d-flex justify-content-center gap-5">
+                    <button type="submit" class="btn custom-button w-25">수정</button>
+                    <button type="button" class="btn btn-light" onclick="history.back()">취소</button>
+                </div>
+
             </form>
         </div>
     </div>
