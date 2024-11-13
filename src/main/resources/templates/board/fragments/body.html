@@ -68,7 +68,7 @@
 
                 <!-- 페이지 번호 버튼들 -->
                 <th:block th:each="i : ${#numbers.sequence(1, list.getTotalPages())}">
-                    <li class="page-item" th:classappend="${i == list.getNumber()} ? 'active'">
+                    <li class="page-item">
                         <a class="page-link"
                            th:style="${i == list.getNumber() + 1} ? 'background-color: #CB8BFF; color: black; border: none;' :
                            'background-color: #CB8BFF; color: white; border: none;'"
