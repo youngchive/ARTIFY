@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.elice.artBoard.board.constants.DefaultImgConst.DEFAULT_IMAGE_NAME;
+
 @Slf4j
 @Service
 @Transactional
@@ -53,7 +55,14 @@ public class BoardImageService {
             return;
         }
 
-        boardImageRepository.delete(optionalBoardImage.get());
+        BoardImage boardImage = optionalBoardImage.get();
+
+        //이미지가 기본 이미지가 아닌 경우 저장되어 있는 이미지 삭제
+        if (!boardImage.getImageName().equals(DEFAULT_IMAGE_NAME)) {
+            File file = new File(boardImage.getImagePath());
+            file.delete();
+        }
+        boardImageRepository.delete(boardImage);
     }
 
     public void update(Board board, RequestBoardForm form) {
@@ -67,17 +76,18 @@ public class BoardImageService {
 
     public List<BoardImage> findImagesByBoardId(List<Board> boards) {
         return boards.stream()
-                .map(board -> {
-                    return findByBordId(board.getId());
-                }).toList();
+                .map(board -> findByBordId(board.getId())).toList();
     }
 
     public BoardImage findByImgId(Long boardImageId) {
-        return boardImageRepository.findById(boardImageId).get();
+        return boardImageRepository.findById(boardImageId)
+                .orElseThrow(() -> new IllegalArgumentException("일치하는 사진이 없습니다"));
     }
 
     public BoardImage findByBordId(Long bordId) {
-        return boardImageRepository.findByBoardId(bordId).get();
+        return boardImageRepository.findByBoardId(bordId)
+                .orElseThrow(() -> new IllegalArgumentException("일치하는 게시물이 없습니다"));
+
     }
 
     private String getImagePath(String originalFilename) {

@@ -31,6 +31,9 @@
                 <input type="file" class="form-control" id="image" th:field="*{image}">
             </div>
 
+            <!-- boardId 숨겨서 전달 -->
+            <input type="hidden" name="boardId" th:value="${postPostDto.boardId}">
+
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary" style="width: 10%; background-color: #CB8BFF; color: white; border: none;">수정</button>
                 <a class="btn btn-danger ms-3" style="width: 10%; background-color: #CDCDCD; color: white; border: none;" th:href="@{/posts/{postId}(postId=${postId})}">취소</a>

@@ -1,11 +1,18 @@
 package com.elice.artBoard.post.service;
 
+import com.elice.artBoard.board.domain.Board;
+import com.elice.artBoard.board.repository.BoardRepository;
+import com.elice.artBoard.comment.repository.CommentRepository;
+import com.elice.artBoard.member.entity.Member;
 import com.elice.artBoard.post.entity.Post;
 import com.elice.artBoard.post.entity.PostPostDto;
 import com.elice.artBoard.post.repository.PostRepository;
+import com.elice.artBoard.post.service.PostImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,18 +20,17 @@ import java.util.List;
 
 @Slf4j
 @Transactional
+@RequiredArgsConstructor
 @Service
 public class PostService {
     private final PostRepository postRepository;
+    private final PostImageService postImageService;
+    private final BoardRepository boardRepository;
+    private final CommentRepository commentRepository;
 
-    @Autowired
-    public PostService(PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
-
-    // 모든 게시글 조회
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
+    // 페이지네이션된 모든 게시글 조회
+    public Page<Post> findPostsByBoardId(Long boardId, Pageable pageable) {
+        return postRepository.findByBoardId(boardId, pageable);
     }
 
     // 특정 게시글 조회
@@ -33,23 +39,42 @@ public class PostService {
                 .orElseThrow(() -> new RuntimeException("Post not found"));
     }
 
+    //board와 연관된 게시글 조회
+    public Post getPostByBoardId(Long boardId) {
+        return postRepository.findOneByBoardId(boardId);
+    }
+
     // 게시글 저장
-    /*public Post savePost(Post post) {
-        return postRepository.save(post);
-    }*/
-    public Post save(PostPostDto postPostDto) {
-        Post post = Post.create(postPostDto.getTitle(), postPostDto.getContent());
+    public Post save(PostPostDto postPostDto, Long boardId, Member member) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new RuntimeException("Board not found"));
+        Post post = Post.create(postPostDto.getTitle(), postPostDto.getContent(), board, member);
         return postRepository.save(post);
     }
 
-    public Post update(Long postId, PostPostDto postPostDto) {
+    public Post update(Long postId, PostPostDto postPostDto, Member member) {
         Post findPost = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
+
         return findPost.update(postPostDto.getTitle(), postPostDto.getContent());
     }
 
     // 특정 게시글 삭제
     public void deletePost(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
+
+        //댓글에 게시글 fk가 있음으로 댓글 먼저 삭제
+        commentRepository.deleteByPostId(postId);
+
+        // 관련 이미지 삭제
+        postImageService.delete(postId);
+
         postRepository.delete(post);
     }
+
+    public PostPostDto getPostPostDto(Long postId) {
+        Post post = getPost(postId);
+        Long boardId = post.getBoard().getId();
+        return new PostPostDto(post.getTitle(), post.getContent(), boardId, post.getMember().getMemberId());
+    }
+
 }

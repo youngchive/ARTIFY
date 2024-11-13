@@ -6,11 +6,17 @@ import com.elice.artBoard.board.dto.RequestBoardForm;
 import com.elice.artBoard.board.dto.ResponseBoardForm;
 import com.elice.artBoard.board.service.BoardImageService;
 import com.elice.artBoard.board.service.BoardService;
+import com.elice.artBoard.member.entity.Member;
+import com.elice.artBoard.post.entity.Post;
+import com.elice.artBoard.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,9 +26,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.IntStream;
 
 import static com.elice.artBoard.board.constants.DefaultImgConst.DEFAULT_IMG_PATH;
 
@@ -35,59 +38,71 @@ public class BoardController {
 
     private final BoardService boardService;
     private final BoardImageService boardImageService;
+    private final PostService postService;
 
     @GetMapping
-    public String boardList(Model model) {
+    public String boardList(@RequestParam(defaultValue = "1") int page,
+            @SessionAttribute(name = "member", required = false) Member member, Model model) {
 
-        List<Board> boards = boardService.findBoards();
-        List<BoardImage> images = boardImageService.findImagesByBoardId(boards);
-
-        List<ResponseBoardForm> responseBoardForm = getResponseFormList(boards, images);
-        model.addAttribute("list", responseBoardForm);
+        model.addAttribute("member", member);
+        model.addAttribute("list", boardService.findBoardsAndImages(page));
         return "/board/boards";
     }
 
     @GetMapping("/create")
-    public String createForm(Model model) {
+    public String createForm(Model model, @SessionAttribute(name = "member", required = false) Member member) {
+
+        model.addAttribute("member", member);
         model.addAttribute("form", new RequestBoardForm());
+
         return "board/create-form";
     }
 
     @PostMapping("/create")
-    public String createBoard(@Validated @ModelAttribute("form") RequestBoardForm form, BindingResult bindingResult) {
+    public String createBoard(@Validated @ModelAttribute("form") RequestBoardForm form, BindingResult bindingResult,
+                              @SessionAttribute(name = "member", required = false) Member member, Model model) {
+
+        model.addAttribute("member", member);
 
         if (bindingResult.hasErrors()) {
             return "board/create-form";
         }
 
-        Board board = boardService.save(form);
+        Board board = boardService.save(form, member);
         boardImageService.save(form, board);
+
         return "redirect:/boards";
     }
 
-    @GetMapping("/put/{boardId}")
-    public String updateForm(@PathVariable Long boardId, Model model) {
+    @GetMapping("/edit/{boardId}")
+    public String updateForm(@PathVariable Long boardId, Model model, @SessionAttribute(name = "member", required = false) Member member) {
+        model.addAttribute("member", member);
+
         Board board = boardService.findBoard(boardId);
         model.addAttribute("form", new RequestBoardForm(board.getTitle(), board.getDescription(), null));
         return "board/edit-form";
     }
 
-    @PutMapping("/put/{boardId}")
-    public String updateBoard(@PathVariable Long boardId, @Validated @ModelAttribute("form") RequestBoardForm form, BindingResult bindingResult) {
+    @PutMapping("/edit/{boardId}")
+    public String updateBoard(@PathVariable Long boardId, @Validated @ModelAttribute("form") RequestBoardForm form, BindingResult bindingResult,
+                              @SessionAttribute(name = "member", required = false) Member member, Model model) {
+
+        model.addAttribute("member", member);
 
         if (bindingResult.hasErrors()) {
             return "board/edit-form";
         }
 
-        Board board = boardService.update(boardId, form);
+        Board board = boardService.update(boardId, form, member);
         boardImageService.update(board, form);
+
         return "redirect:/boards";
     }
 
-    @GetMapping("/delete/{boardId}")
-    public String deleteBoard(@PathVariable Long boardId) {
-        boardImageService.delete(boardId);
-        boardService.delete(boardId);
+    @DeleteMapping("/delete/{boardId}")
+    public String deleteBoard(@PathVariable Long boardId, @SessionAttribute(name = "member", required = false) Member member) {
+
+        boardService.delete(boardId, member);
         return "redirect:/boards";
     }
 
@@ -99,23 +114,26 @@ public class BoardController {
         return getResponse(image);
     }
 
-    //TODO 게시글 추가 후 개발
-//    @GetMapping("/{id}")
-//    public String board(Long boardId) {
-//    }
+    // 게시글 목록 페이지
+    @GetMapping("/{boardId}")
+    public String getBoard(@PathVariable Long boardId,
+                           @RequestParam(defaultValue = "1") int page,  // 페이지 번호 파라미터 추가
+                           Model model,
+                           @SessionAttribute(name = "member", required = false) Member member) {
 
-    private List<ResponseBoardForm> getResponseFormList(List<Board> boards, List<BoardImage> images) {
 
-        List<ResponseBoardForm> forms = new ArrayList<>();
-        int bound = boards.size();
+        Pageable pageable = PageRequest.of(page - 1, 10);  // 한 페이지에 10개의 게시글을 표시
 
-        IntStream.range(0, bound).forEach(i -> {
-            Board board = boards.get(i);
-            BoardImage boardImage = images.get(i);
-            forms.add(new ResponseBoardForm(board.getId(), board.getTitle(), board.getDescription(), boardImage.getId()));
-        });
+        Page<Post> posts = postService.findPostsByBoardId(boardId, pageable);
+        log.info("###########Posts: {}", posts);
 
-        return forms;
+        model.addAttribute("member", member);
+        model.addAttribute("posts", posts);
+        model.addAttribute("boardId", boardId);
+        model.addAttribute("totalPages", posts);
+        model.addAttribute("currentPage", page);
+
+        return "post/list";
     }
 
     private ResponseEntity getResponse(BoardImage image) throws MalformedURLException {

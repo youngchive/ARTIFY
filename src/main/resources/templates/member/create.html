@@ -7,12 +7,6 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
 
     <link rel="stylesheet" th:href="@{/css/style.css}" />
-
-    <style>
-        .error-message {
-            color:red;
-        }
-    </style>
 </head>
 
 <body class="d-flex justify-content-center align-items-center vh-100">
@@ -26,23 +20,36 @@
 
             <form action="" method="post" th:object="${memberCreate}">
                 <div class="mb-3">
-                    <input type="text" th:field="*{name}" placeholder="이름" class="form-control" required>
+                    <input type="text" th:field="*{name}" th:errorclass="border-danger" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'"
+                           placeholder="이름" class="form-control" maxlength="25" required />
+                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message">이름 오류</div>
                 </div>
                 <div class="mb-3">
-                    <input type="email" th:field="*{email}" placeholder="이메일" class="form-control" required>
+                    <input type="email" th:field="*{email}" th:errorclass="border-danger" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'"
+                           placeholder="이메일" class="form-control" pattern="^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[^-][A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$" maxlength="50" required />
                     <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message">이메일 오류</div>
                 </div>
                 <div class="mb-3">
-                    <input type="password" th:field="*{password}" placeholder="비밀번호" class="form-control" required>
+                    <input type="password" th:field="*{password}" th:errorclass="border-danger" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'"
+                           placeholder="비밀번호" class="form-control" minlength="8" maxlength="15" required />
                     <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message">비밀번호 오류</div>
                 </div>
                 <div class="mb-3">
-                    <input type="text" th:field="*{nickname}" placeholder="닉네임" class="form-control" required>
+                    <input type="text" th:field="*{nickname}" placeholder="닉네임" class="form-control" maxlength="25" required />
                 </div>
                 <button type="submit" class="btn custom-button w-100">회원가입</button>
             </form>
         </div>
     </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const invalidInput = document.querySelector('.is-invalid');
+            if (invalidInput) {
+                invalidInput.focus();
+            }
+        });
+    </script>
 
 </body>
 </html>

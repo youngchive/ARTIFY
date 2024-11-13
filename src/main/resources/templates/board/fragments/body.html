@@ -5,8 +5,15 @@
 <!-- 상단 logo 부분 -->
 <div th:fragment="header">
     <div class="container">
-        <div class="d-flex justify-content-center mt-5">
-            <img th:src="@{/images/logo.png}"/>
+        <div class="d-flex justify-content-center mt-5 align-items-center">
+            <img th:src="@{/images/logo.png}" style="margin-left: 360px;margin-right: 130px;"/>
+            <div class="d-flex align-items-center">
+                <div th:text="${member.name} + '님'" class="me-3"></div>
+                <a th:href="@{'/' + ${member.memberId}}" class="btn"
+                   style="background-color: #CB8BFF; color: white; border: none; margin-right: 5px;">내 정보</a>
+                <a th:href="@{/logout}" class="btn"
+                   style="background-color: #CB8BFF; color: white; border: none;">로그아웃</a>
+            </div>
         </div>
     </div>
 </div>
@@ -14,35 +21,90 @@
 <!-- list 출력 부분-->
 <th:block th:fragment="listForm">
     <div class="d-flex  justify-content-around m-3">
-        <h2 class="text-center mt-3">게시판 목록</h2>
-        <a class="text-center btn btn-primary mt-4" th:href="@{/boards/create}" style="background-color: #CB8BFF; color: white; border: none;"> 게시판 추가</a>
+        <h2 class="text-center mt-3" th:text="#{board.list}">게시판 목록</h2>
+        <a class="text-center btn btn-primary mt-4" style="background-color: #CB8BFF; color: white; border: none;"
+           th:href="@{/boards/create}" th:text="#{board.add}"> 게시판 추가</a>
     </div>
-    <div class="bg-light mt-5">
-        <div class="container">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                <th:block th:each="form : ${list}">
-                    <div class="col mb-3 mt-3">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <th:block th:each="form : ${list}">
+                <div class="col mb-3 mt-3">
+                    <a th:href="@{/boards/{id}(id=${form.getBoardId()})}"
+                       style="display: block; text-decoration: none; color: black;">
                         <div class="card shadow-sm">
                             <img width="100%" height="225" class="border border-radius=10px rounded"
                                  th:src="@{boards/image/{id}(id=${form.getImageId()})}">
-                            <div class="card-body">
+                            <div class="card-body" style="min-height: 150px">
                                 <div class="card-">
                                     <h4 class="board-title" th:text="${form.getTitle()}">게시판 이름</h4>
                                     <p th:text="${form.getDescription()}">게시판 설명</p>
                                 </div>
-                                <div class="d-flex justify-content-end">
+                                <div class="d-flex justify-content-end"
+                                     th:if="${member.getMemberId() == form.getMemberId()}">
                                     <a class="btn btn-outline-primary me-2"
-                                       th:href="@{boards/put/{id}(id=${form.getBoardId()})}" th:text="'수정'"></a>
+                                       th:href="@{boards/edit/{id}(id=${form.getBoardId()})}"
+                                       th:text="#{edit.btn}"></a>
                                     <a class="btn btn-outline-danger" onclick="return confirmDelete(event, this);"
-                                       th:href="@{boards/delete/{id}(id=${form.getBoardId()})}" th:text="'삭제'"></a>
+                                       th:onclick="|deleteBoard(${form.getBoardId()})|" th:text="#{delete.btn}"></a>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
+                </div>
+            </th:block>
+        </div>
+
+        <!-- 페이징 부분 -->
+        <div class="d-flex justify-content-center mt-4">
+            <ul class="pagination">
+
+                <!-- 이전 버튼 -->
+                <li class="page-item" th:classappend="${!list.hasPrevious()} ? 'disabled'">
+                    <a class="page-link" th:href="@{/boards(page=${list.getNumber()})}"
+                       style="background-color: #CB8BFF; color: white; border: none;" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <!-- 페이지 번호 버튼들 -->
+                <th:block th:each="i : ${#numbers.sequence(1, list.getTotalPages())}">
+                    <li class="page-item">
+                        <a class="page-link"
+                           th:style="${i == list.getNumber() + 1} ? 'background-color: #CB8BFF; color: black; border: none;' :
+                           'background-color: #CB8BFF; color: white; border: none;'"
+                           th:href="@{/boards(page=${i})}" th:text="${i}">1</a>
+                    </li>
                 </th:block>
-            </div>
+
+                <!-- 다음 버튼 -->
+                <li class="page-item" th:classappend="${!list.hasNext()} ? 'disabled'">
+                    <a class="page-link" th:href="@{/boards(page=${list.getNumber()} + 2)}"
+                       style="background-color: #CB8BFF; color: white; border: none;" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
+    <script>
+        function deleteBoard(boardId) {
+            let form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', 'boards/delete/' + boardId);
+
+            let hiddenMethodField = document.createElement('input');
+            hiddenMethodField.setAttribute("type", "hidden");
+            hiddenMethodField.setAttribute("name", "_method");
+            hiddenMethodField.setAttribute("value", "delete");
+
+            form.appendChild(hiddenMethodField);
+
+            if (confirm("정말 삭제하시겠습니까?")) {
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
 </th:block>
 
 <!-- 게시판 업로드 및 수정 부분 -->
@@ -50,31 +112,33 @@
     <div class="container my-3 mt-5 d-flex justify-content-center">
         <div class="container">
             <form th:action method="post" th:object="${form}" enctype="multipart/form-data">
-                <input type="hidden" name="_method" th:if="${method != 'POST' and method != 'post' and method != 'GET' and method != 'get'}"
+                <input type="hidden" name="_method"
+                       th:if="${method != 'POST' and method != 'post' and method != 'GET' and method != 'get'}"
                        th:value="${method}">
                 <div class="mb-3">
-                    <label for="title" class="form-label">게시판 이름</label>
-                    <input type="text" id="title" class="form-control" placeholder="이름을 입력하세요."
+                    <label for="title" class="form-label" th:text="#{board.name}">게시판 이름</label>
+                    <input type="text" id="title" class="form-control" placeholder="이름을 입력하세요." maxlength="100"
                            th:field="*{title}" th:errorclass="border-danger"/>
                     <p class="text-danger" th:errors="*{title}"></p>
                 </div>
                 <div class="mb-3">
-                    <label for="description" class="form-label">게시판 설명</label>
-                    <textarea id="description" class="form-control" style="height: 200px;"
+                    <label for="description" class="form-label" th:text="#{board.description}">게시판 설명</label>
+                    <textarea id="description" class="form-control" style="height: 200px;" maxlength="200"
                               placeholder="설명을 입력하세요." th:field="*{description}"
                               th:errorclass="border-danger"></textarea>
                     <p class="text-danger" th:errors="*{description}"></p>
 
                 </div>
                 <div class="mb-5">
-                    <label for="image" class="form-label">이미지 업로드</label>
+                    <label for="image" class="form-label" th:text="#{board.uploadImage}">이미지 업로드</label>
                     <input class="form-control" type="file" id="image" accept="image/*"
                            th:field="*{image}" th:errorclass="border-danger"/>
                     <p class="text-danger" th:errors="*{image}"></p>
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary" style="width: 10%; background-color: #CB8BFF; border: none;"
+                    <button type="submit" class="btn btn-primary"
+                            style="width: 10%; background-color: #CB8BFF; border: none;"
                             th:text="${createButtonName}">추가
                     </button>
                     <a class="btn btn-danger ms-3" style="width: 10%; background-color: #CDCDCD; border: none;"
