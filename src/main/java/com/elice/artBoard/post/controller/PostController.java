@@ -43,7 +43,6 @@ public class PostController {
                               @RequestParam(defaultValue = "1") int page,
                               Model model,
                               @SessionAttribute(name = "member", required = false) Member member) {
-        //Member member = memberService.findMember(memberId);
         model.addAttribute("member", member);
 
         Pageable pageable = PageRequest.of(page - 1, 10);  // page-1로 시작, 한 페이지에 10개의 게시글

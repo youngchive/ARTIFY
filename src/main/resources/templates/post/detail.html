@@ -58,10 +58,18 @@
         <tbody th:each="comment : ${comments}">
         <tr style="vertical-align: middle" th:id="|comment-${comment.getCommentId()}|">
             <td th:text="${commentStat.count}"></td>
-            <td class="text-center" style="vertical-align: middle" th:text="${#temporals.format(comment.getCreateDate(), 'yyyy-MM-dd')}"></td>
+            <td class="text-center" style="vertical-align: middle">
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <span style="width: 120px;" th:text="${#temporals.format(comment.getCreateDate(), 'yy-MM-dd HH:MM')}"></span>
+                    <span th:if="${comment.getUpdateTime() == '수정사항 없음'}" th:text="${comment.getUpdateTime()}"
+                          class="ms-3" style="color: transparent; font-size: 0.8em; width: 120px; text-align: left"></span>
+                    <span th:unless="${comment.getUpdateTime() == '수정사항 없음'}" th:text="${comment.getUpdateTime()}"
+                          class="ms-3" style="color: #6c757d; font-size: 0.8em; width: 120px; text-align: left"></span>
+                </div>
+            </td>
             <td class="text-wrap text-center" style="width: 300px; word-break: break-all;"
                 th:text="${comment.getContent()}"></td>
-            <td class="text-center" style="vertical-align: middle" th:text="${comment.getMemberId()}"></td>
+            <td class="text-center" style="vertical-align: middle" th:text="${comment.getNickname()}"></td>
             <td class="text-center" style="vertical-align: middle" th:if="${comment.getMemberId() == member.getMemberId()}">
                 <button class="btn btn-sm btn-primary ms-3" style="background-color: #CB8BFF; color: white; border: none;"
                         th:onclick="|edit([[${comment.getCommentId()}]], [[${post.getId()}]])|">수정</button>
