@@ -107,6 +107,7 @@ public class PostController {
         PostPostDto postPostDto = postService.getPostPostDto(postId);
 
         // model에 담아서 뷰로 전달
+        model.addAttribute("member", member);
         model.addAttribute("postPostDto", postPostDto);
 
         return "post/edit";  // 게시글 수정 폼 페이지로 이동
