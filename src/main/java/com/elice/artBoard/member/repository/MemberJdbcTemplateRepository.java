@@ -3,7 +3,6 @@ package com.elice.artBoard.member.repository;
 import com.elice.artBoard.member.entity.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -56,7 +55,6 @@ public class MemberJdbcTemplateRepository implements MemberRepository{
 
             return Optional.ofNullable(findMember);
         } catch (EmptyResultDataAccessException e) {
-            System.out.println(e.getMessage());
             return Optional.empty();
         }
     }
@@ -70,7 +68,6 @@ public class MemberJdbcTemplateRepository implements MemberRepository{
 
             return Optional.ofNullable(findMember);
         } catch (EmptyResultDataAccessException e) {
-            System.out.println(e.getMessage());
             return Optional.empty();
         }
     }
