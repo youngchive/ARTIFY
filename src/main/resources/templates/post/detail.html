@@ -7,8 +7,13 @@
 </head>
 <body>
 <div class="container">
-    <div class="d-flex justify-content-center mt-5">
-        <img th:src="@{/images/logo.png}"/>
+    <div class="d-flex justify-content-center mt-5 align-items-center">
+        <img th:src="@{/images/logo.png}" style="margin-left: 360px;margin-right: 130px;"/>
+        <div class="d-flex align-items-center">
+            <div th:text="${member.nickname} + '님'" class="me-3"></div>
+            <a th:href="@{'/' + ${member.memberId}}" class="btn" style="background-color: #CB8BFF; color: white; border: none; margin-right: 5px;">내 정보</a>
+            <a th:href="@{/logout}" class="btn" style="background-color: #CB8BFF; color: white; border: none;">로그아웃</a>
+        </div>
     </div>
     <button class="btn btn-sm btn-outline-secondary" type="button"
             th:onclick="'window.location.href=\'/boards/\' + ' + ${boardId}">&lt; 게시글 목록
