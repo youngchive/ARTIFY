@@ -11,7 +11,8 @@ public class ResponseCommentDto {
 
     private Long commentId;
     private Integer memberId;
+    private String nickname;
     private String content;
     private LocalDateTime createDate;
-    private LocalDateTime editDate;
+    private String updateTime;
 }
