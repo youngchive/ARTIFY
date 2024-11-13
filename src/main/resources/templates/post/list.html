@@ -75,13 +75,11 @@
         </div>
     </div>
     <button class="btn btn-sm btn-outline-secondary" type="button" onclick="window.location.href='/boards'" style="margin-left: 16px;">&lt; 게시판 목록</button>
-    <!-- Title and Create Post Button -->
     <div class="d-flex justify-content-between m-3">
         <h2 class="text-center mt-3">게시글 목록</h2>
         <a class="text-center btn btn-primary mt-4" th:href="@{/posts/create(boardId=${boardId})}" style="background-color: #CB8BFF; color: white; border: none;">게시글 작성</a>
     </div>
 
-    <!-- Board List -->
     <div class="d-flex justify-content-around m-3" id="board-list">
         <div class="container">
             <table class="board-table">
@@ -89,6 +87,7 @@
                 <tr>
                     <th style="width: 300px; text-align: center;">제목</th>
                     <th style="width: 500px; text-align: center;">내용</th>
+                    <th style="width: 200px; text-align: center;">작성자</th>
                     <th style="width: 200px; text-align: center;">작성일</th>
                 </tr>
                 </thead>
@@ -97,7 +96,8 @@
                     <!-- 제목을 클릭하면 해당 게시물의 상세 페이지로 이동 -->
                     <td><a class="d-inline-block text-truncate" style="max-width: 200px;" th:href="@{/posts/{postId}(postId=${post.id})}" th:text="${post.title}"></a></td>
                     <td class="d-inline-block text-truncate" style="max-width: 600px;" th:text="${post.content}"></td>
-                    <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${post.getMember().getNickname()}"></td>
+                    <td th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd')}"></td>
                 </tr>
                 </tbody>
             </table>

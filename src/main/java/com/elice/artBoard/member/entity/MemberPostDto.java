@@ -27,7 +27,7 @@ public class MemberPostDto {
     @NotBlank(message = "비밀번호를 입력해 주세요")
     @Size(min = 8, max = 15, message = "8자 이상 15자 이하로 작성해 주세요")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\W)(?!.* ).{8,15}$",
-            message = "숫자, 영문 대소문자 각 1개 이상씩 입력해 주세요")
+            message = "숫자, 영문 대소문자, 특수문자를 포함해 주세요")
     private String password;
 
     // 회원 생성, 수정 시간 ?
