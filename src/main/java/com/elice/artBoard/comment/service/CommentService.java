@@ -74,6 +74,7 @@ public class CommentService {
         final int ONE_MINUTE = 1;
         final int ONE_HOUR = 1;
         final int ONE_DAY = 1;
+        final int ONE_MONTH = 30;
         final int ONE_YEAR = 365;
 
         LocalDateTime currentTime = LocalDateTime.now();
@@ -91,8 +92,11 @@ public class CommentService {
         if (duration.toDays() < ONE_DAY) {
             return duration.toHours() + "시간전 수정";
         }
-        if (duration.toDays() < ONE_YEAR) {
+        if (duration.toDays() < ONE_MONTH) {
             return duration.toDays() + "일전 수정";
+        }
+        if (duration.toDays() < ONE_YEAR) {
+            return (duration.toDays() / ONE_MONTH) + "달전 수정";
         }
         return (duration.toDays() / ONE_YEAR) + "년전 수정";
     }
