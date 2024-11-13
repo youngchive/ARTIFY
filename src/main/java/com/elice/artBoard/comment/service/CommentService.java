@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -58,11 +60,40 @@ public class CommentService {
         return postId;
     }
 
-    //TODO 회원 추가후 변경
     public List<ResponseCommentDto> findComments(Long postId) {
         List<Comment> comments = commentRepository.findAll(postId);
         return comments.stream()
-                .map(c -> new ResponseCommentDto(c.getId(), c.getMember().getMemberId(), c.getContent(), c.getCreateDate(), c.getEditDate()))
+                .map(c -> new ResponseCommentDto(
+                        c.getId(), c.getMember().getMemberId(), c.getMember().getNickname(),
+                        c.getContent(), c.getCreateDate(), updateTime(c.getCreateDate(), c.getEditDate())))
                 .toList();
+    }
+
+    private String updateTime(LocalDateTime createDate, LocalDateTime editDate) {
+
+        final int ONE_MINUTE = 1;
+        final int ONE_HOUR = 1;
+        final int ONE_DAY = 1;
+        final int ONE_YEAR = 365;
+
+        LocalDateTime currentTime = LocalDateTime.now();
+        Duration duration = Duration.between(editDate, currentTime);
+
+        if (createDate.equals(editDate)) {
+            return "수정사항 없음";
+        }
+        if (duration.toMinutes() < ONE_MINUTE) {
+            return "방금 전 수정";
+        }
+        if (duration.toHours() < ONE_HOUR) {
+            return duration.toMinutes() + "분전 수정";
+        }
+        if (duration.toDays() < ONE_DAY) {
+            return duration.toHours() + "시간전 수정";
+        }
+        if (duration.toDays() < ONE_YEAR) {
+            return duration.toDays() + "일전 수정";
+        }
+        return (duration.toDays() / ONE_YEAR) + "년전 수정";
     }
 }
