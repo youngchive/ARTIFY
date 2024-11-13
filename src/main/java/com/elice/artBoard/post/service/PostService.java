@@ -30,7 +30,7 @@ public class PostService {
 
     // 페이지네이션된 모든 게시글 조회
     public Page<Post> findPostsByBoardId(Long boardId, Pageable pageable) {
-        return postRepository.findByBoardId(boardId, pageable);
+        return postRepository.findByBoardIdOrderByCreateDateDesc(boardId, pageable);
     }
 
     // 특정 게시글 조회
