@@ -3,6 +3,7 @@ package com.elice.artBoard.board.controller;
 import com.elice.artBoard.board.domain.Board;
 import com.elice.artBoard.board.domain.BoardImage;
 import com.elice.artBoard.board.dto.RequestBoardForm;
+import com.elice.artBoard.board.dto.ResponseBoardForm;
 import com.elice.artBoard.board.service.BoardImageService;
 import com.elice.artBoard.board.service.BoardService;
 import com.elice.artBoard.member.entity.Member;
@@ -40,9 +41,11 @@ public class BoardController {
     private final PostService postService;
 
     @GetMapping
-    public String boardList(Model model, @SessionAttribute(name = "member", required = false) Member member) {
+    public String boardList(@RequestParam(defaultValue = "1") int page,
+            @SessionAttribute(name = "member", required = false) Member member, Model model) {
+
         model.addAttribute("member", member);
-        model.addAttribute("list", boardService.findBoardsAndImages());
+        model.addAttribute("list", boardService.findBoardsAndImages(page));
         return "/board/boards";
     }
 
