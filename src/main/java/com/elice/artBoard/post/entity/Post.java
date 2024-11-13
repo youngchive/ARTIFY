@@ -1,6 +1,7 @@
 package com.elice.artBoard.post.entity;
 
 import com.elice.artBoard.board.domain.Board;
+import com.elice.artBoard.common.entity.BaseEntity;
 import com.elice.artBoard.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,7 +18,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "post")
-public class Post {
+public class Post extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // 게시글키
@@ -27,11 +28,11 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String content; // 게시글 내용
 
-    @Column(name = "created_at", updatable = false)
+    /*@Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt; // 생성 시간
 
     @Column(name = "edited_at")
-    private LocalDateTime editedAt; // 수정 시간
+    private LocalDateTime editedAt; // 수정 시간*/
 
     @JoinColumn(name = "member_id")
     @ManyToOne(fetch = LAZY)
@@ -45,7 +46,7 @@ public class Post {
     private List<PostImage> postImages;  // 해당 게시글에 속한 이미지 리스트
 
 
-    // 엔티티가 처음 저장되기 전 호출 (생성 시간 설정)
+    /*// 엔티티가 처음 저장되기 전 호출 (생성 시간 설정)
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
@@ -55,7 +56,7 @@ public class Post {
     @PreUpdate
     protected void onUpdate() {
         this.editedAt = LocalDateTime.now();
-    }
+    }*/
 
     private Post(String title, String content, Board board, Member member) {
         this.title = title;
