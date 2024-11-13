@@ -80,13 +80,13 @@
                        th:value="${method}">
                 <div class="mb-3">
                     <label for="title" class="form-label">게시판 이름</label>
-                    <input type="text" id="title" class="form-control" placeholder="이름을 입력하세요."
+                    <input type="text" id="title" class="form-control" placeholder="이름을 입력하세요." maxlength="100"
                            th:field="*{title}" th:errorclass="border-danger"/>
                     <p class="text-danger" th:errors="*{title}"></p>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">게시판 설명</label>
-                    <textarea id="description" class="form-control" style="height: 200px;"
+                    <textarea id="description" class="form-control" style="height: 200px;" maxlength="200"
                               placeholder="설명을 입력하세요." th:field="*{description}"
                               th:errorclass="border-danger"></textarea>
                     <p class="text-danger" th:errors="*{description}"></p>
