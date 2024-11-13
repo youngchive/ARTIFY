@@ -35,7 +35,7 @@
 
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary" style="width: 10%; background-color: #CB8BFF; color: white; border: none;">작성</button>
-                <a class="btn btn-danger ms-3" style="width: 10%; background-color: #CDCDCD; color: white; border: none;" href="/posts">취소</a>
+                <a class="btn btn-danger ms-3" style="width: 10%; background-color: #CDCDCD; color: white; border: none;" th:href="@{/boards/{boardId}(boardId=${boardId})}">취소</a>
             </div>
         </form>
 
