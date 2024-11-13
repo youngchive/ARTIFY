@@ -13,10 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class RequestBoardForm {
 
-    @NotBlank(message = "이름은 필수 값 입니다.")
+    @Size(max = 100, message = "Size.title")
+    @NotBlank(message = "NotBlank.title")
     private String title;
 
-    @Size(max = 200, message = "200자를 초과할 수 없습니다.")
+    @Size(max = 200, message = "Size.description")
     @NotBlank(message = "설명은 필수 값 입니다.")
     private String description;
 

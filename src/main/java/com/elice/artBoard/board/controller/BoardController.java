@@ -25,7 +25,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.MalformedURLException;
-import java.util.List;
 
 import static com.elice.artBoard.board.constants.DefaultImgConst.DEFAULT_IMG_PATH;
 
@@ -60,14 +59,15 @@ public class BoardController {
     public String createBoard(@Validated @ModelAttribute("form") RequestBoardForm form, BindingResult bindingResult,
                               @SessionAttribute(name = "member", required = false) Member member, Model model) {
 
+        model.addAttribute("member", member);
+
         if (bindingResult.hasErrors()) {
             return "board/create-form";
         }
 
         Board board = boardService.save(form, member);
-
-        model.addAttribute("member", member);
         boardImageService.save(form, board);
+
         return "redirect:/boards";
     }
 
@@ -84,6 +84,8 @@ public class BoardController {
     public String updateBoard(@PathVariable Long boardId, @Validated @ModelAttribute("form") RequestBoardForm form, BindingResult bindingResult,
                               @SessionAttribute(name = "member", required = false) Member member, Model model) {
 
+        model.addAttribute("member", member);
+
         if (bindingResult.hasErrors()) {
             return "board/edit-form";
         }
@@ -91,7 +93,6 @@ public class BoardController {
         Board board = boardService.update(boardId, form, member);
         boardImageService.update(board, form);
 
-        model.addAttribute("member", member);
         return "redirect:/boards";
     }
 

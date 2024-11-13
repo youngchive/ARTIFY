@@ -4,6 +4,6 @@
 <head th:replace="~{board/fragments/header :: header}"></head>
 <body>
 <th:block th:insert="~{board/fragments/body :: header}"></th:block>
-<th:block th:insert="~{board/fragments/body :: createForm ('POST', '생성', '취소')}"></th:block>
+<th:block th:insert="~{board/fragments/body :: createForm ('POST', #{create.btn}, #{cancel.btn})}"></th:block>
 </body>
 </html>
