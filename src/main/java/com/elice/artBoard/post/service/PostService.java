@@ -3,6 +3,7 @@ package com.elice.artBoard.post.service;
 import com.elice.artBoard.board.domain.Board;
 import com.elice.artBoard.board.repository.BoardRepository;
 import com.elice.artBoard.comment.repository.CommentRepository;
+import com.elice.artBoard.member.entity.Member;
 import com.elice.artBoard.post.entity.Post;
 import com.elice.artBoard.post.entity.PostPostDto;
 import com.elice.artBoard.post.repository.PostRepository;
@@ -44,15 +45,16 @@ public class PostService {
     }
 
     // 게시글 저장
-    public Post save(PostPostDto postPostDto, Long boardId) {
+    public Post save(PostPostDto postPostDto, Long boardId, Member member) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new RuntimeException("Board not found"));
-        Post post = Post.create(postPostDto.getTitle(), postPostDto.getContent(), board);
+        Post post = Post.create(postPostDto.getTitle(), postPostDto.getContent(), board, member);
         return postRepository.save(post);
     }
 
-    public Post update(Long postId, PostPostDto postPostDto) {
+    public Post update(Long postId, PostPostDto postPostDto, Member member) {
         Post findPost = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
+
         return findPost.update(postPostDto.getTitle(), postPostDto.getContent());
     }
 
@@ -72,7 +74,7 @@ public class PostService {
     public PostPostDto getPostPostDto(Long postId) {
         Post post = getPost(postId);
         Long boardId = post.getBoard().getId();
-        return new PostPostDto(post.getTitle(), post.getContent(), boardId);
+        return new PostPostDto(post.getTitle(), post.getContent(), boardId, post.getMember().getMemberId());
     }
 
 }
