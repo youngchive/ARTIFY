@@ -10,6 +10,9 @@ import com.elice.artBoard.post.entity.Post;
 import com.elice.artBoard.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,32 +68,22 @@ public class BoardService {
     }
 
     public Board findBoard(Long boardId) {
-        return boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("일치하는 게시판이 없습니다"));
+        return boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("일치하는 게시판이 없습니다"));
     }
 
-    public List<Board> findBoards() {
-        return boardRepository.findAll();
-    }
+    public Page<ResponseBoardForm> findBoardsAndImages(int page) {
 
-    public List<ResponseBoardForm> findBoardsAndImages() {
-        List<Board> boards = boardRepository.findAll();
-        List<BoardImage> images = boardImageService.findImagesByBoardId(boards);
-        return getResponseFormList(boards, images);
-    }
+        final int OFFSET = page - 1;
+        final int LIMIT = 6;
 
-    private List<ResponseBoardForm> getResponseFormList(List<Board> boards, List<BoardImage> images) {
+        PageRequest pageRequest = PageRequest.of(OFFSET, LIMIT, Sort.Direction.DESC, "id");
 
-        List<ResponseBoardForm> formList = new ArrayList<>();
-        int bound = boards.size();
+        Page<Board> boards = boardRepository.findAll(pageRequest);
 
-        IntStream.range(0, bound).forEach(i -> {
-            Board board = boards.get(i);
-            BoardImage boardImage = images.get(i);
-            formList.add(new ResponseBoardForm(
-                    board.getId(), board.getTitle(), board.getDescription(), boardImage.getId(), board.getMember().getMemberId()
-            ));
+        return boards.map(b -> {
+            BoardImage bi = boardImageService.findByBordId(b.getId());
+            return new ResponseBoardForm(b.getId(), b.getTitle(), b.getDescription(), bi.getId(), b.getMember().getMemberId());
         });
-
-        return formList;
     }
 }

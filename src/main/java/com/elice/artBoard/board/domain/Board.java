@@ -1,5 +1,6 @@
 package com.elice.artBoard.board.domain;
 
+import com.elice.artBoard.common.entity.BaseEntity;
 import com.elice.artBoard.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-public class Board {
+public class Board extends BaseEntity {
 
     @Id
     @GeneratedValue
