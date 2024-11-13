@@ -115,9 +115,9 @@ public class BoardController {
     public String getBoard(@PathVariable Long boardId,
                            @RequestParam(defaultValue = "1") int page,  // 페이지 번호 파라미터 추가
                            Model model,
-                           @SessionAttribute(name = "memberId", required = false) Integer memberId) {
+                           @SessionAttribute(name = "member", required = false) Member member) {
 
-        Member member = memberService.findMember(memberId);
+        //Member member = memberService.findMember(memberId);
         model.addAttribute("member", member);
 
         Pageable pageable = PageRequest.of(page - 1, 10);  // 한 페이지에 10개의 게시글을 표시

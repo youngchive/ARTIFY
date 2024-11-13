@@ -17,6 +17,7 @@
     <div class="container">
         <!--        <h1>게시글 상세</h1>-->
         <h2 th:text="${post.title}"></h2>
+        <h4 th:text="${member.getNickname()}"></h4>
         <div class="d-flex justify-content-end">
             <p style="margin-right: 10px;">작성일: <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
             <p>수정일: <span th:text="${#temporals.format(post.editedAt, 'yyyy-MM-dd HH:mm')}"></span></p>
@@ -36,9 +37,9 @@
         </div>
 
         <br>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center" th:if="${post.getMember().getMemberId() == member.getMemberId()}">
             <a class="btn btn-primary" th:href="@{/posts/{postId}/edit(postId=${post.id})}"
-               style="width: 10%; background-color: #CB8BFF; color: white; border: none;">수정</a>
+               style="width: 10%; background-color: #CB8BFF; color: white; border: none;" >수정</a>
             <form th:action="@{/posts/{postId}/delete(postId=${post.id})}" method="post"
                   style="display:flex; width: 10%" onsubmit="return confirmDelete()">
                 <button type="submit" class="btn btn-danger flex-grow-1 mx-1 ms-3"

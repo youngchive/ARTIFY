@@ -42,8 +42,8 @@ public class PostController {
     public String getAllPosts(@RequestParam Long boardId,
                               @RequestParam(defaultValue = "1") int page,
                               Model model,
-                              @SessionAttribute(name = "memberId", required = false) Integer memberId) {
-        Member member = memberService.findMember(memberId);
+                              @SessionAttribute(name = "member", required = false) Member member) {
+        //Member member = memberService.findMember(memberId);
         model.addAttribute("member", member);
 
         Pageable pageable = PageRequest.of(page - 1, 10);  // page-1로 시작, 한 페이지에 10개의 게시글
@@ -81,12 +81,13 @@ public class PostController {
 
     // 게시글 생성 페이지
     @GetMapping("/create")
-    public String createPostForm(@RequestParam("boardId") Long boardId, Model model) {
+    public String createPostForm(@RequestParam("boardId") Long boardId, Model model, @SessionAttribute(name = "member", required = false) Member member) {
         System.out.println("Received boardId: " + boardId);  // 디버깅 로그
         PostPostDto postPostDto = new PostPostDto();
         postPostDto.setBoardId(boardId);  // DTO에 boardId 설정
         model.addAttribute("postPostDto", postPostDto);
         model.addAttribute("boardId", boardId);
+        model.addAttribute("member", member);
 
         return "post/create";
     }
@@ -94,15 +95,15 @@ public class PostController {
     // 게시글 생성 처리
     @PostMapping("/create")
     public String createPost(@Validated @ModelAttribute("postPostDto") PostPostDto postPostDto,
-                             @RequestParam("boardId") Long boardId) {
-        Post post = postService.save(postPostDto, boardId);
+                             @RequestParam("boardId") Long boardId, @SessionAttribute(name = "member", required = false) Member member) {
+        Post post = postService.save(postPostDto, boardId, member);
         postImageService.save(postPostDto, post);
         return "redirect:/boards/" + boardId;
     }
 
     // 게시글 수정 페이지
     @GetMapping("/{postId}/edit")
-    public String editPostForm(@PathVariable Long postId, Model model) {
+    public String editPostForm(@PathVariable Long postId, Model model, @SessionAttribute(name = "member", required = false) Member member) {
         // PostPostDto 객체를 Service에서 받아옴
         PostPostDto postPostDto = postService.getPostPostDto(postId);
 
@@ -114,12 +115,12 @@ public class PostController {
 
     // 게시글 수정 처리
     @PostMapping("/{postId}")
-    public String updatePost(@PathVariable Long postId, @Validated @ModelAttribute("postPostDto") PostPostDto postPostDto, BindingResult bindingResult) {
+    public String updatePost(@PathVariable Long postId, @Validated @ModelAttribute("postPostDto") PostPostDto postPostDto, BindingResult bindingResult, @SessionAttribute(name = "member", required = false) Member member) {
         if (bindingResult.hasErrors()) {
             return "post/edit";
         }
 
-        Post post = postService.update(postId, postPostDto);
+        Post post = postService.update(postId, postPostDto, member);
         postImageService.update(post, postPostDto);
 
         return "redirect:/boards/" + postPostDto.getBoardId();

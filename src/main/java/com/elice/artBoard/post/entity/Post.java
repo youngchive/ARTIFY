@@ -1,11 +1,14 @@
 package com.elice.artBoard.post.entity;
 
 import com.elice.artBoard.board.domain.Board;
+import com.elice.artBoard.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Builder
@@ -30,7 +33,9 @@ public class Post {
     @Column(name = "edited_at")
     private LocalDateTime editedAt; // 수정 시간
 
-    private int memberId; // 회원키(외래키)
+    @JoinColumn(name = "member_id")
+    @ManyToOne(fetch = LAZY)
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
@@ -52,14 +57,15 @@ public class Post {
         this.editedAt = LocalDateTime.now();
     }
 
-    private Post(String title, String content, Board board) {
+    private Post(String title, String content, Board board, Member member) {
         this.title = title;
         this.content = content;
         this.board = board;
+        this.member = member;
     }
 
-    public static Post create(String title, String content, Board board) {
-        return new Post(title, content, board);
+    public static Post create(String title, String content, Board board, Member member) {
+        return new Post(title, content, board, member);
     }
 
     public Post update(String title, String content) {
