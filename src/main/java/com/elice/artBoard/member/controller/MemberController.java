@@ -1,7 +1,6 @@
 package com.elice.artBoard.member.controller;
 
 import com.elice.artBoard.member.entity.MemberCheck;
-import com.elice.artBoard.member.exception.MemberNotFoundException;
 import com.elice.artBoard.member.mapper.MemberMapper;
 import com.elice.artBoard.member.service.MemberService;
 import com.elice.artBoard.member.entity.Member;
@@ -56,7 +55,7 @@ public class MemberController {
             session.setAttribute("member", result);
             session.setMaxInactiveInterval(60 * 30); // 세션 30분동안 유지
 
-        } catch (MemberNotFoundException e) { // 로그인 실패 시
+        } catch (RuntimeException e) { // 로그인 실패 시
             model.addAttribute("msg", e.getMessage());
 
             return "member/login";
@@ -86,7 +85,7 @@ public class MemberController {
 
     // 회원 가입 처리
     @PostMapping("/create")
-    public String signUp(@Validated @ModelAttribute("memberCreate") MemberPostDto memberPostDto, BindingResult result, Model model) {
+    public String signUp(@Validated @ModelAttribute("memberCreate") MemberPostDto memberPostDto, BindingResult result) {
         memberService.checkDuplicate(new MemberCheck(memberPostDto), result);
 
         if (result.hasErrors()) {
