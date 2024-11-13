@@ -19,8 +19,8 @@
         <h2 th:text="${post.title}"></h2>
         <h6 th:text="${member.getNickname()}"></h6>
         <div class="d-flex justify-content-end">
-            <p style="margin-right: 10px;">작성일: <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
-            <p>수정일: <span th:text="${#temporals.format(post.editedAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+            <p style="margin-right: 10px;">작성일: <span th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></span></p>
+            <p th:if="${post.editDate == post.createDate}">수정일: <span th:text="${#temporals.format(post.editDate, 'yyyy-MM-dd HH:mm')}"></span></p>
         </div>
 
 

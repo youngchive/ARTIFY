@@ -97,18 +97,19 @@
                     <td><a class="d-inline-block text-truncate" style="max-width: 200px;" th:href="@{/posts/{postId}(postId=${post.id})}" th:text="${post.title}"></a></td>
                     <td class="d-inline-block text-truncate" style="max-width: 600px;" th:text="${post.content}"></td>
                     <td th:text="${post.getMember().getNickname()}"></td>
-                    <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd')}"></td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
     <div class="d-flex justify-content-center mt-4">
-        <a th:if="${posts.hasPrevious()}" th:href="@{/posts(boardId=${boardId}, page=${posts.number})}" class="btn btn-outline-secondary btn-sm">이전</a>
+        <a th:if="${posts.hasPrevious()}" th:href="@{/posts(boardId=${boardId}, page=${posts.number}, sort=${sortOrder})}" class="btn btn-outline-secondary btn-sm">이전</a>
         <span class="mx-2">페이지 <span th:text="${posts.number + 1}"></span> / <span th:text="${posts.totalPages}"></span></span>
-        <a th:if="${posts.hasNext()}" th:href="@{/posts(boardId=${boardId}, page=${posts.number + 2})}" class="btn btn-outline-secondary btn-sm">다음</a>
+        <a th:if="${posts.hasNext()}" th:href="@{/posts(boardId=${boardId}, page=${posts.number + 2}, sort=${sortOrder})}" class="btn btn-outline-secondary btn-sm">다음</a>
     </div>
 </div>
 <br>
+
 </body>
 </html>
