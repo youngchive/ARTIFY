@@ -17,7 +17,7 @@
     <div class="container">
         <!--        <h1>게시글 상세</h1>-->
         <h2 th:text="${post.title}"></h2>
-        <h4 th:text="${member.getNickname()}"></h4>
+        <h6 th:text="${member.getNickname()}"></h6>
         <div class="d-flex justify-content-end">
             <p style="margin-right: 10px;">작성일: <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
             <p>수정일: <span th:text="${#temporals.format(post.editedAt, 'yyyy-MM-dd HH:mm')}"></span></p>
