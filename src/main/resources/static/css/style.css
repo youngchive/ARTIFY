@@ -36,6 +36,234 @@
     border: none;
 }
 
+/* .post-list 스타일 */
+.post-list .logo {
+    margin-left: 360px;
+    margin-right: 130px;
+}
+
+.post-list .btn-info {
+    background-color: #CB8BFF;
+    color: white;
+    border: none;
+    margin-right: 5px;
+}
+
+.post-list .btn-info:hover {
+    background-color: #9c70d0;
+}
+
+.post-list .post-list-container {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.post-list .btn-primary {
+    background-color: #CB8BFF;
+    color: white;
+    border: none;
+}
+
+.post-list .btn-primary:hover {
+    background-color: #9c70d0;
+}
+
+.post-list .btn-outline-secondary {
+    margin-left: 16px;
+}
+
+.post-list .board-table {
+    width: 100%;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.post-list .board-table a {
+    color: #333;
+    display: inline-block;
+    line-height: 1.4;
+    word-break: break-word;
+    vertical-align: middle;
+    text-decoration: none;
+}
+
+.post-list .board-table a:hover {
+    text-decoration: underline;
+}
+
+.post-list .board-table th {
+    text-align: center;
+}
+
+.post-list .board-table .th-num {
+    width: 100px;
+    text-align: center;
+}
+
+.post-list .board-table .th-date {
+    width: 200px;
+}
+
+.post-list .board-table th {
+    padding: 14px 0;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.post-list .board-table td {
+    padding: 14px 0;
+}
+
+.post-list .board-table tbody td {
+    text-align: center;
+}
+
+.post-list .board-table tbody th {
+    padding-left: 28px;
+    padding-right: 14px;
+    border-top: 1px solid #e7e7e7;
+    text-align: left;
+}
+
+.post-list .board-table th:nth-child(1),
+.post-list .board-table td:nth-child(1) {
+    width: 300px;
+    text-align: center;
+}
+
+.post-list .board-table th:nth-child(2),
+.post-list .board-table td:nth-child(2) {
+    width: 500px;
+    text-align: center;
+}
+
+.post-list .board-table th:nth-child(3),
+.post-list .board-table td:nth-child(3) {
+    width: 200px;
+    text-align: center;
+}
+
+.post-list .board-table th:nth-child(4),
+.post-list .board-table td:nth-child(4) {
+    width: 200px;
+    text-align: center;
+}
+
+.post-list .d-flex.justify-content-center.mt-4 {
+    margin-top: 16px;
+}
+
+.post-list .btn-outline-secondary.btn-sm {
+    margin-right: 5px;
+}
+
+.post-list .mx-2 {
+    margin: 0 5px;
+}
+
+/* .post-create 스타일 */
+.post-create .logo {
+    margin-left: 360px;
+    margin-right: 130px;
+}
+
+.post-create .btn-info {
+    background-color: #CB8BFF;
+    color: white;
+    border: none;
+    margin-right: 5px;
+}
+
+.post-create .btn-info:hover {
+    background-color: #9c70d0;
+}
+
+.post-create .post-form-container {
+    margin-top: 30px;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.post-create .post-form-container h2 {
+    margin-bottom: 30px;
+}
+
+.post-create #title::placeholder {
+    text-align: left;
+}
+
+.post-create #title {
+    text-align: left;
+}
+
+.post-create #content::placeholder {
+    text-align: left;
+}
+
+.post-create #content {
+    text-align: left;
+}
+
+.post-create .form-control {
+    border-radius: 4px;
+    box-shadow: none;
+    margin-bottom: 20px;
+}
+
+.post-create textarea.form-control, .post-create input.form-control {
+    font-size: 1rem;
+    text-align: left;
+}
+
+.post-create input.form-control, .post-create textarea.form-control {
+    font-size: 1rem;
+}
+
+.post-create .btn-primary {
+    background-color: #CB8BFF;
+    color: white;
+    border: none;
+    width: 10%;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.post-create .btn-primary:hover {
+    background-color: #9c70d0;
+}
+
+.post-create .btn-danger {
+    background-color: #CDCDCD;
+    color: white;
+    border: none;
+    width: 10%;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.post-create .btn-danger:hover {
+    background-color: #a8a8a8;
+}
+
+.post-create .d-flex.justify-content-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.post-create .d-flex.justify-content-center.mt-5 {
+    margin-top: 50px;
+}
+
+.post-create .form-control.border-danger {
+    border: 2px solid #e74c3c;
+}
+
+.post-create .text-danger {
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+/* .comment 스타일 */
 .comment-edit-textarea-size {
     height: 200px;
     width: 800px;
