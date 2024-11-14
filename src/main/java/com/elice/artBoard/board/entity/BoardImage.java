@@ -1,4 +1,4 @@
-package com.elice.artBoard.board.domain;
+package com.elice.artBoard.board.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

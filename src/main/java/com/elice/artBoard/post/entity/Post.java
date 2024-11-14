@@ -1,12 +1,11 @@
 package com.elice.artBoard.post.entity;
 
-import com.elice.artBoard.board.domain.Board;
+import com.elice.artBoard.board.entity.Board;
 import com.elice.artBoard.common.entity.BaseEntity;
 import com.elice.artBoard.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;

@@ -1,9 +1,8 @@
 package com.elice.artBoard.board.controller;
 
-import com.elice.artBoard.board.domain.Board;
-import com.elice.artBoard.board.domain.BoardImage;
+import com.elice.artBoard.board.entity.Board;
+import com.elice.artBoard.board.entity.BoardImage;
 import com.elice.artBoard.board.dto.RequestBoardForm;
-import com.elice.artBoard.board.dto.ResponseBoardForm;
 import com.elice.artBoard.board.service.BoardImageService;
 import com.elice.artBoard.board.service.BoardService;
 import com.elice.artBoard.member.entity.Member;

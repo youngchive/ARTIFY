@@ -1,6 +1,6 @@
 package com.elice.artBoard.board.repository;
 
-import com.elice.artBoard.board.domain.Board;
+import com.elice.artBoard.board.entity.Board;
 import com.elice.artBoard.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

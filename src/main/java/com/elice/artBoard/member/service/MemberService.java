@@ -1,6 +1,6 @@
 package com.elice.artBoard.member.service;
 
-import com.elice.artBoard.board.domain.Board;
+import com.elice.artBoard.board.entity.Board;
 import com.elice.artBoard.board.repository.BoardRepository;
 import com.elice.artBoard.board.service.BoardService;
 import com.elice.artBoard.member.entity.MemberCheck;

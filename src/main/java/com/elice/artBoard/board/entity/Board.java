@@ -1,4 +1,4 @@
-package com.elice.artBoard.board.domain;
+package com.elice.artBoard.board.entity;
 
 import com.elice.artBoard.common.entity.BaseEntity;
 import com.elice.artBoard.member.entity.Member;

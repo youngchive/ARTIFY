@@ -1,6 +1,6 @@
 package com.elice.artBoard.board.repository;
 
-import com.elice.artBoard.board.domain.BoardImage;
+import com.elice.artBoard.board.entity.BoardImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

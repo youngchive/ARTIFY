@@ -1,7 +1,7 @@
 package com.elice.artBoard.board.service;
 
-import com.elice.artBoard.board.domain.Board;
-import com.elice.artBoard.board.domain.BoardImage;
+import com.elice.artBoard.board.entity.Board;
+import com.elice.artBoard.board.entity.BoardImage;
 import com.elice.artBoard.board.dto.RequestBoardForm;
 import com.elice.artBoard.board.dto.ResponseBoardForm;
 import com.elice.artBoard.board.repository.BoardRepository;
@@ -16,9 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 @Slf4j
 @Service
@@ -57,10 +55,10 @@ public class BoardService {
             throw new IllegalArgumentException("회원 정보가 일치하지 않습니다");
         }
 
-        Post post = postService.getPostByBoardId(boardId);
+        List<Post> posts = postService.getPostByBoardId(boardId);
 
-        if (post != null) {
-            postService.deletePost(post.getId());
+        if (!posts.isEmpty()) {
+            posts.forEach(p -> postService.deletePost(p.getId()));
         }
 
         boardImageService.delete(board.getId());
