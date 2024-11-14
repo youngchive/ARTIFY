@@ -8,11 +8,9 @@
         <div class="d-flex justify-content-center mt-5 align-items-center">
             <img th:src="@{/images/logo.png}" class="logo-img-size"/>
             <div class="d-flex align-items-center">
-                <div th:text="${member.nickname} + '님'" class="me-3"></div>
-                <a th:href="@{'/' + ${member.memberId}}" class="btn"
-                   style="background-color: #CB8BFF; color: white; border: none; margin-right: 5px;">내 정보</a>
-                <a th:href="@{/logout}" class="btn"
-                   style="background-color: #CB8BFF; color: white; border: none;">로그아웃</a>
+                <div th:text="${member.name} + '님'" class="me-3"></div>
+                <a th:href="@{'/' + ${member.memberId}}" class="btn custom-btn-color" style="margin-right: 5px;">내 정보</a>
+                <a th:href="@{/logout}" class="btn custom-btn-color">로그아웃</a>
             </div>
         </div>
     </div>
@@ -20,7 +18,7 @@
 
 <!-- list 출력 부분-->
 <th:block th:fragment="listForm">
-    <div class="d-flex  justify-content-around m-5" style="gap: 50rem;">
+    <div class="d-flex  justify-content-around m-3">
         <h2 class="text-center mt-3" th:text="#{board.list}">게시판 목록</h2>
         <a class="text-center btn btn-primary mt-4 custom-btn-color"
            th:href="@{/boards/create}" th:text="#{board.add}"> 게시판 추가</a>
