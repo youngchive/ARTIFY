@@ -36,6 +36,16 @@
     border: none;
 }
 
+.m-3 {
+    margin: 1rem;
+    gap: 25rem;
+}
+
+body .form-control::placeholder {
+    text-align: left;
+}
+
+
 /* .post-list 스타일 */
 .post-list .logo {
     margin-left: 360px;
