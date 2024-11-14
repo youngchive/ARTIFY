@@ -52,7 +52,13 @@
             <a th:if="${posts.hasNext()}" th:href="@{/posts(boardId=${boardId}, page=${posts.number + 2}, sort=${sortOrder})}" class="btn btn-outline-secondary btn-sm">다음</a>
         </div>
     </div>
+    <div class="d-flex justify-content-center mt-4">
+        <a th:if="${posts.hasPrevious()}" th:href="@{/posts(boardId=${boardId}, page=${posts.number}, sort=${sortOrder})}" class="btn btn-outline-secondary btn-sm">이전</a>
+        <span class="mx-2">페이지 <span th:text="${posts.number + 1}"></span> / <span th:text="${posts.totalPages}"></span></span>
+        <a th:if="${posts.hasNext()}" th:href="@{/posts(boardId=${boardId}, page=${posts.number + 2}, sort=${sortOrder})}" class="btn btn-outline-secondary btn-sm">다음</a>
+    </div>
 </div>
 <br>
+
 </body>
 </html>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>게시글 상세</title>
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" href="../css/style.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -61,27 +62,26 @@
     <h2 class="mb-3">댓글</h2>
     <table class="table mb-5" style="table-layout: fixed;">
         <tbody th:each="comment : ${comments}">
-        <tr style="vertical-align: middle" th:id="|comment-${comment.getCommentId()}|">
+        <tr class="comment-table-align" th:id="|comment-${comment.getCommentId()}|">
             <td th:text="${commentStat.count}"></td>
-            <td class="text-center" style="vertical-align: middle">
+            <td class="text-center comment-table-align">
                 <div style="display: flex; align-items: center; justify-content: center;">
-                    <span style="width: 120px;" th:text="${#temporals.format(comment.getCreateDate(), 'yy-MM-dd HH:MM')}"></span>
+                    <span class="comment-add-time-size" th:text="${#temporals.format(comment.getCreateDate(), 'yy-MM-dd HH:MM')}"></span>
                     <span th:if="${comment.getUpdateTime() == '수정사항 없음'}" th:text="${comment.getUpdateTime()}"
-                          class="ms-3" style="color: transparent; font-size: 0.8em; width: 120px; text-align: left"></span>
+                          class="ms-3 comment-edit-time-size" style="color: transparent; "></span>
                     <span th:unless="${comment.getUpdateTime() == '수정사항 없음'}" th:text="${comment.getUpdateTime()}"
-                          class="ms-3" style="color: #6c757d; font-size: 0.8em; width: 120px; text-align: left"></span>
+                          class="ms-3 comment-edit-time-size" style="color: #6c757d;"></span>
                 </div>
             </td>
-            <td class="text-wrap text-center" style="width: 300px; word-break: break-all;"
-                th:text="${comment.getContent()}"></td>
-            <td class="text-center" style="vertical-align: middle" th:text="${comment.getNickname()}"></td>
-            <td class="text-center" style="vertical-align: middle" th:if="${comment.getMemberId() == member.getMemberId()}">
-                <button class="btn btn-sm btn-primary ms-3" style="background-color: #CB8BFF; color: white; border: none;"
+            <td class="text-wrap text-center comment-table-content-size" th:text="${comment.getContent()}"></td>
+            <td class="text-center comment-table-align" th:text="${comment.getNickname()}"></td>
+            <td class="text-center comment-table-align" th:if="${comment.getMemberId() == member.getMemberId()}">
+                <button class="btn btn-sm btn-primary ms-3 custom-btn-color"
                         th:onclick="|edit([[${comment.getCommentId()}]], [[${post.getId()}]])|">수정</button>
-                <button class="btn btn-sm btn-danger ms-3" style="background-color: #CDCDCD; color: white; border: none;"
+                <button class="btn btn-sm btn-danger ms-3 custom-btn-color"
                         th:onclick="|deleteComment([[${comment.getCommentId()}]])|">삭제</button>
             </td>
-            <td class="text-center" style="vertical-align: middle" th:unless="${comment.getMemberId() == member.getMemberId()}">
+            <td class="text-center comment-table-align"  th:unless="${comment.getMemberId() == member.getMemberId()}">
                 &nbsp;
             </td>
         </tr>
@@ -94,9 +94,8 @@
     <h4 class="mb-3">댓글 추가</h4>
     <form th:action="@{/comments/create}" method="post">
         <input type="hidden" name="postId" th:value="${post.getId()}">
-        <textarea class="form-control" style="height: 100px; resize: none"  required id="content" name="content"></textarea>
-        <button class="btn mt-3" style="width: 10%; background-color: #CB8BFF; color: white; border: none;"
-                type="submit">추가
+        <textarea class="form-control comment-add-textarea-size" required id="content" name="content"></textarea>
+        <button class="btn mt-3 custom-btn-color" style="width: 10%;" type="submit">추가
         </button>
     </form>
 </div>
@@ -123,8 +122,8 @@
             <input type="hidden" name="_method" value="put">
             <input type="hidden" name="commentId" value="${commentId}">
             <input type="hidden" name="postId" value="${postId}">
-            <textarea class="form-control mb-3" style="height: 120px; width: 800px; resize: none;" required name="content"></textarea>
-            <button class="btn btn-sm" type="submit" style="background-color: #CB8BFF; color: white; border: none;">수정</button>
+            <textarea class="form-control mb-3 comment-edit-textarea-size" required name="content"></textarea>
+            <button class="btn btn-sm custom-btn-color" type="submit">수정</button>
             <button class="btn btn-sm btn-danger" onclick="removeForm(${commentId})">취소</button>
         </form>
     </td>`;
