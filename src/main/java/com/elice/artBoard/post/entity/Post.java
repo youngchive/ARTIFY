@@ -1,11 +1,15 @@
 package com.elice.artBoard.post.entity;
 
 import com.elice.artBoard.board.domain.Board;
+import com.elice.artBoard.common.entity.BaseEntity;
+import com.elice.artBoard.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Builder
@@ -14,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "post")
-public class Post {
+public class Post extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // 게시글키
@@ -24,13 +28,15 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String content; // 게시글 내용
 
-    @Column(name = "created_at", updatable = false)
+    /*@Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt; // 생성 시간
 
     @Column(name = "edited_at")
-    private LocalDateTime editedAt; // 수정 시간
+    private LocalDateTime editedAt; // 수정 시간*/
 
-    private int memberId; // 회원키(외래키)
+    @JoinColumn(name = "member_id")
+    @ManyToOne(fetch = LAZY)
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
@@ -40,7 +46,7 @@ public class Post {
     private List<PostImage> postImages;  // 해당 게시글에 속한 이미지 리스트
 
 
-    // 엔티티가 처음 저장되기 전 호출 (생성 시간 설정)
+    /*// 엔티티가 처음 저장되기 전 호출 (생성 시간 설정)
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
@@ -50,16 +56,17 @@ public class Post {
     @PreUpdate
     protected void onUpdate() {
         this.editedAt = LocalDateTime.now();
-    }
+    }*/
 
-    private Post(String title, String content, Board board) {
+    private Post(String title, String content, Board board, Member member) {
         this.title = title;
         this.content = content;
         this.board = board;
+        this.member = member;
     }
 
-    public static Post create(String title, String content, Board board) {
-        return new Post(title, content, board);
+    public static Post create(String title, String content, Board board, Member member) {
+        return new Post(title, content, board, member);
     }
 
     public Post update(String title, String content) {

@@ -7,8 +7,13 @@
 </head>
 <body>
 <div class="container">
-    <div class="d-flex justify-content-center mt-5">
-        <img th:src="@{/images/logo.png}"/>
+    <div class="d-flex justify-content-center mt-5 align-items-center">
+        <img th:src="@{/images/logo.png}" style="margin-left: 360px;margin-right: 130px;"/>
+        <div class="d-flex align-items-center">
+            <div th:text="${member.nickname} + '님'" class="me-3"></div>
+            <a th:href="@{'/' + ${member.memberId}}" class="btn" style="background-color: #CB8BFF; color: white; border: none; margin-right: 5px;">내 정보</a>
+            <a th:href="@{/logout}" class="btn" style="background-color: #CB8BFF; color: white; border: none;">로그아웃</a>
+        </div>
     </div>
 </div>
 <div class="d-flex justify-content-center">
@@ -35,7 +40,7 @@
 
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary" style="width: 10%; background-color: #CB8BFF; color: white; border: none;">작성</button>
-                <a class="btn btn-danger ms-3" style="width: 10%; background-color: #CDCDCD; color: white; border: none;" href="/posts">취소</a>
+                <a class="btn btn-danger ms-3" style="width: 10%; background-color: #CDCDCD; color: white; border: none;" th:href="@{/boards/{boardId}(boardId=${boardId})}">취소</a>
             </div>
         </form>
 
