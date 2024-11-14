@@ -35,19 +35,19 @@
 
             <div class="d-flex justify-content-center gap-4">
                 <form th:action="@{'edit/' + ${loginMember.memberId}}">
-                    <input type="submit" value="수정" class="btn custom-button" />
+                    <input type="submit" value="수정" class="btn custom-btn" />
                 </form>
 
                 <form th:action="@{'/' + ${memberId}}" method="post">
                     <input type="hidden" name="_method" value="delete" />
-                    <button type="submit" class="btn btn-danger" onclick="return confirmDelete()">탈퇴</button>
+                    <button type="submit" class="btn custom-btn-danger" onclick="return confirmDelete()">탈퇴</button>
                 </form>
             </div>
 
         </div>
 
         <div class="justify-content-center mt-3">
-            <button class="btn custom-button" onclick="location.href = '/boards'">게시판 목록</button>
+            <button class="btn custom-btn" onclick="location.href = '/boards'">게시판 목록</button>
         </div>
     </div>
 

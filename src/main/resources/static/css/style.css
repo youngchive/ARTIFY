@@ -14,11 +14,59 @@
     margin-right: 130px;
 }
 
-.custom-number-color {
+/*=== 버튼 ===*/
+.custom-btn {
+    background-color: #CB8BFF;
+    color: white;
+    border: none;
+    margin-right: 5px;
+}
+
+.custom-btn:hover {
+    background-color: #9c70d0;
+    color: white;
+    border: none;
+}
+
+.custom-btn:active {
+    background-color: #9c70d0 !important;
+    color: white;
+    border: none;
+}
+
+.paging-color-black {
     background-color: #CB8BFF;
     color: black;
     border: none;
 }
+
+.paging-color-white {
+    background-color: #CB8BFF;
+    color: white;
+    border: none;
+}
+
+.custom-btn-danger {
+    background-color: #CDCDCD;
+    color: white;
+    border: none;
+    text-align: center;
+}
+
+.custom-btn-danger:hover {
+    background-color: #a8a8a8;
+    color: white;
+    border: none;
+    text-align: center;
+}
+
+.custom-btn-danger:active {
+    background-color: #a8a8a8 !important;
+    color: white;
+    border: none;
+}
+
+/*=== === ===*/
 
 .m-3 {
     margin: 1rem;
