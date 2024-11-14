@@ -143,6 +143,7 @@ public class MemberController {
 
     @DeleteMapping("/{memberId}")
     public String deleteMember(@PathVariable Integer memberId) {
+        memberService.deleteAllBoards(memberId);
         memberService.deleteMember(memberId);
 
         return "redirect:/logout";

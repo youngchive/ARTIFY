@@ -1,5 +1,8 @@
 package com.elice.artBoard.member.service;
 
+import com.elice.artBoard.board.domain.Board;
+import com.elice.artBoard.board.repository.BoardRepository;
+import com.elice.artBoard.board.service.BoardService;
 import com.elice.artBoard.member.entity.MemberCheck;
 import com.elice.artBoard.member.exception.MemberNotFoundException;
 import com.elice.artBoard.member.repository.MemberRepository;
@@ -14,8 +17,16 @@ import java.util.Optional;
 
 @Service
 public class MemberService {
+    private final MemberRepository memberRepository;
+    private final BoardRepository boardRepository;
+    private final BoardService boardService;
+
     @Autowired
-    MemberRepository memberRepository;
+    public MemberService(MemberRepository memberRepository, BoardRepository boardRepository, BoardService boardService) {
+        this.memberRepository = memberRepository;
+        this.boardRepository = boardRepository;
+        this.boardService = boardService;
+    }
 
     // 전체 회원 목록
     public List<Member> findMembers() {
@@ -73,5 +84,17 @@ public class MemberService {
                 .orElseThrow(() -> new RuntimeException("삭제할 회원이 없습니다."));
 
         memberRepository.delete(findMember);
+    }
+
+    // 회원 탈퇴 전 작성한 게시판 모두 지우기
+    public void deleteAllBoards(Integer memberId) {
+        Member member = findMember(memberId);
+        List<Board> boards = boardRepository.findByMember(member);
+
+        if(!boards.isEmpty()) {
+            for (Board board : boards) {
+                boardService.delete(board.getId(), member);
+            }
+        }
     }
 }
