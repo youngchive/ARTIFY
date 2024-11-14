@@ -4,112 +4,55 @@
     <meta charset="UTF-8">
     <title>게시글 목록</title>
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Custom styles to match the provided CSS */
-        .board-table {
-            /*font-size: 13px;*/
-            width: 100%;
-            border-top: 1px solid #ccc;
-            border-bottom: 1px solid #ccc;
-        }
-
-        .board-table a {
-            color: #333;
-            display: inline-block;
-            line-height: 1.4;
-            word-break: break-word;
-            vertical-align: middle;
-            text-decoration: none;
-        }
-
-        .board-table a:hover {
-            text-decoration: underline;
-        }
-
-        .board-table th {
-            text-align: center;
-        }
-
-        .board-table .th-num {
-            width: 100px;
-            text-align: center;
-        }
-
-        .board-table .th-date {
-            width: 200px;
-        }
-
-        .board-table th {
-            padding: 14px 0;
-            border-bottom: 1px solid #e7e7e7;
-        }
-
-        .board-table td {
-            padding: 14px 0;
-        }
-
-        .board-table tbody td {
-            /*border-top: 1px solid #e7e7e7;*/
-            text-align: center;
-        }
-
-        .board-table tbody th {
-            padding-left: 28px;
-            padding-right: 14px;
-            border-top: 1px solid #e7e7e7;
-            text-align: left;
-        }
-
-
-    </style>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-<div class="container">
-    <!-- Logo Section -->
+<div class="container post-list">
     <div class="d-flex justify-content-center mt-5 align-items-center">
-        <img th:src="@{/images/logo.png}" alt="Logo" style="margin-left: 360px;margin-right: 130px;"/>
+        <img th:src="@{/images/logo.png}" alt="Logo" class="logo"/>
         <div class="d-flex align-items-center">
             <div th:text="${member.nickname} + '님'" class="me-3"></div>
-            <a th:href="@{'/' + ${member.memberId}}" class="btn" style="background-color: #CB8BFF; color: white; border: none; margin-right: 5px;">내 정보</a>
-            <a th:href="@{/logout}" class="btn" style="background-color: #CB8BFF; color: white; border: none;">로그아웃</a>
+            <a th:href="@{'/' + ${member.memberId}}" class="btn btn-info">내 정보</a>
+            <a th:href="@{/logout}" class="btn btn-info">로그아웃</a>
         </div>
-    </div>
-    <button class="btn btn-sm btn-outline-secondary" type="button" onclick="window.location.href='/boards'" style="margin-left: 16px;">&lt; 게시판 목록</button>
-    <div class="d-flex justify-content-between m-3">
-        <h2 class="text-center mt-3">게시글 목록</h2>
-        <a class="text-center btn btn-primary mt-4" th:href="@{/posts/create(boardId=${boardId})}" style="background-color: #CB8BFF; color: white; border: none;">게시글 작성</a>
     </div>
 
-    <div class="d-flex justify-content-around m-3" id="board-list">
-        <div class="container">
-            <table class="board-table">
-                <thead>
-                <tr>
-                    <th style="width: 300px; text-align: center;">제목</th>
-                    <th style="width: 500px; text-align: center;">내용</th>
-                    <th style="width: 200px; text-align: center;">작성자</th>
-                    <th style="width: 200px; text-align: center;">작성일</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="post : ${posts}">
-                    <!-- 제목을 클릭하면 해당 게시물의 상세 페이지로 이동 -->
-                    <td><a class="d-inline-block text-truncate" style="max-width: 200px;" th:href="@{/posts/{postId}(postId=${post.id})}" th:text="${post.title}"></a></td>
-                    <td class="d-inline-block text-truncate" style="max-width: 600px;" th:text="${post.content}"></td>
-                    <td th:text="${post.getMember().getNickname()}"></td>
-                    <td th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd')}"></td>
-                </tr>
-                </tbody>
-            </table>
+    <div class="post-list-container">
+        <button class="btn btn-sm btn-outline-secondary" type="button" onclick="window.location.href='/boards'">&lt; 게시판 목록</button>
+        <div class="d-flex justify-content-between m-3">
+            <h2 class="text-center mt-3">게시글 목록</h2>
+            <a class="text-center btn btn-primary mt-4" th:href="@{/posts/create(boardId=${boardId})}">게시글 작성</a>
         </div>
-    </div>
-    <div class="d-flex justify-content-center mt-4">
-        <a th:if="${posts.hasPrevious()}" th:href="@{/posts(boardId=${boardId}, page=${posts.number}, sort=${sortOrder})}" class="btn btn-outline-secondary btn-sm">이전</a>
-        <span class="mx-2">페이지 <span th:text="${posts.number + 1}"></span> / <span th:text="${posts.totalPages}"></span></span>
-        <a th:if="${posts.hasNext()}" th:href="@{/posts(boardId=${boardId}, page=${posts.number + 2}, sort=${sortOrder})}" class="btn btn-outline-secondary btn-sm">다음</a>
+
+        <div class="d-flex justify-content-around m-3" id="board-list">
+            <div class="container">
+                <table class="board-table">
+                    <thead>
+                    <tr>
+                        <th>제목</th>
+                        <th>내용</th>
+                        <th>작성자</th>
+                        <th>작성일</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="post : ${posts}">
+                        <td><a class="d-inline-block text-truncate" th:href="@{/posts/{postId}(postId=${post.id})}" th:text="${post.title}"></a></td>
+                        <td class="d-inline-block text-truncate" th:text="${post.content}"></td>
+                        <td th:text="${post.getMember().getNickname()}"></td>
+                        <td th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd')}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+            <a th:if="${posts.hasPrevious()}" th:href="@{/posts(boardId=${boardId}, page=${posts.number}, sort=${sortOrder})}" class="btn btn-outline-secondary btn-sm">이전</a>
+            <span class="mx-2">페이지 <span th:text="${posts.number + 1}"></span> / <span th:text="${posts.totalPages}"></span></span>
+            <a th:if="${posts.hasNext()}" th:href="@{/posts(boardId=${boardId}, page=${posts.number + 2}, sort=${sortOrder})}" class="btn btn-outline-secondary btn-sm">다음</a>
+        </div>
     </div>
 </div>
 <br>
-
 </body>
 </html>
