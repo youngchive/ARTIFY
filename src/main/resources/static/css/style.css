@@ -1,8 +1,8 @@
 .custom-button {
-            color: white;
-            background-color: #CB8BFF;
-            font-weight: bold;
-        }
+    color: white;
+    background-color: #CB8BFF;
+    font-weight: bold;
+}
 
 .custom-button:hover {
     background-color: #c491f5;
@@ -17,4 +17,21 @@
 .error-message {
     color: red;
     font-size: 12px;
+}
+
+.logo-img-size {
+    margin-left: 360px;
+    margin-right: 130px;
+}
+
+.custom-btn-color {
+    background-color: #CB8BFF;
+    color: white;
+    border: none;
+}
+
+.custom-number-color {
+    background-color: #CB8BFF;
+    color: black;
+    border: none;
 }

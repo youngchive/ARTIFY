@@ -6,13 +6,11 @@
 <div th:fragment="header">
     <div class="container">
         <div class="d-flex justify-content-center mt-5 align-items-center">
-            <img th:src="@{/images/logo.png}" style="margin-left: 360px;margin-right: 130px;"/>
+            <img th:src="@{/images/logo.png}" class="logo-img-size"/>
             <div class="d-flex align-items-center">
-                <div th:text="${member.nickname} + '님'" class="me-3"></div>
-                <a th:href="@{'/' + ${member.memberId}}" class="btn"
-                   style="background-color: #CB8BFF; color: white; border: none; margin-right: 5px;">내 정보</a>
-                <a th:href="@{/logout}" class="btn"
-                   style="background-color: #CB8BFF; color: white; border: none;">로그아웃</a>
+                <div th:text="${member.name} + '님'" class="me-3"></div>
+                <a th:href="@{'/' + ${member.memberId}}" class="btn custom-btn-color" style="margin-right: 5px;">내 정보</a>
+                <a th:href="@{/logout}" class="btn custom-btn-color">로그아웃</a>
             </div>
         </div>
     </div>
@@ -20,9 +18,9 @@
 
 <!-- list 출력 부분-->
 <th:block th:fragment="listForm">
-    <div class="d-flex  justify-content-around m-5" style="gap: 50rem;">
+    <div class="d-flex  justify-content-around m-3">
         <h2 class="text-center mt-3" th:text="#{board.list}">게시판 목록</h2>
-        <a class="text-center btn btn-primary mt-4" style="background-color: #CB8BFF; color: white; border: none;"
+        <a class="text-center btn btn-primary mt-4 custom-btn-color"
            th:href="@{/boards/create}" th:text="#{board.add}"> 게시판 추가</a>
     </div>
     <div class="container">
@@ -43,7 +41,8 @@
                                      th:if="${member.getMemberId() == form.getMemberId()}">
                                     <a class="btn btn-outline-primary me-2"
                                        th:href="@{boards/edit/{id}(id=${form.getBoardId()})}"
-                                       th:text="#{edit.btn}"></a>
+                                       th:text="#{edit.btn}">
+                                    </a>
                                     <a class="btn btn-outline-danger" onclick="return confirmDelete(event, this);"
                                        th:onclick="|deleteBoard(${form.getBoardId()})|" th:text="#{delete.btn}"></a>
                                 </div>
@@ -60,9 +59,8 @@
 
                 <!-- 이전 버튼 -->
                 <li class="page-item" th:classappend="${!list.hasPrevious()} ? 'disabled'">
-                    <a class="page-link" th:href="@{/boards(page=${list.getNumber()})}"
-                       style="background-color: #CB8BFF; color: white; border: none;" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
+                    <a class="page-link custom-btn-color" th:href="@{/boards(page=${list.getNumber()})}">
+                        <span>&laquo;</span>
                     </a>
                 </li>
 
@@ -70,17 +68,15 @@
                 <th:block th:each="i : ${#numbers.sequence(1, list.getTotalPages())}">
                     <li class="page-item">
                         <a class="page-link"
-                           th:style="${i == list.getNumber() + 1} ? 'background-color: #CB8BFF; color: black; border: none;' :
-                           'background-color: #CB8BFF; color: white; border: none;'"
+                           th:classappend="${i == list.getNumber() + 1} ? 'custom-number-color' : 'custom-btn-color'"
                            th:href="@{/boards(page=${i})}" th:text="${i}">1</a>
                     </li>
                 </th:block>
 
                 <!-- 다음 버튼 -->
                 <li class="page-item" th:classappend="${!list.hasNext()} ? 'disabled'">
-                    <a class="page-link" th:href="@{/boards(page=${list.getNumber()} + 2)}"
-                       style="background-color: #CB8BFF; color: white; border: none;" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
+                    <a class="page-link custom-btn-color" th:href="@{/boards(page=${list.getNumber()} + 2)}">
+                        <span>&raquo;</span>
                     </a>
                 </li>
             </ul>
@@ -137,11 +133,10 @@
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary"
-                            style="width: 10%; background-color: #CB8BFF; border: none;"
-                            th:text="${createButtonName}">추가
+                    <button type="submit" class="btn btn-primary custom-btn-color"
+                            style="width: 10%;" th:text="${createButtonName}">추가
                     </button>
-                    <a class="btn btn-danger ms-3" style="width: 10%; background-color: #CDCDCD; border: none;"
+                    <a class="btn btn-danger ms-3 custom-btn-color" style="width: 10%;"
                        th:text="${cancelButtonName}" th:href="@{/boards}">취소</a>
                 </div>
             </form>
