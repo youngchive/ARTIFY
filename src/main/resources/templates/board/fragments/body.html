@@ -8,7 +8,7 @@
         <div class="d-flex justify-content-center mt-5 align-items-center">
             <img th:src="@{/images/logo.png}" class="logo-img-size"/>
             <div class="d-flex align-items-center">
-                <div th:text="${member.name} + '님'" class="me-3"></div>
+                <div th:text="${member.nickname} + '님'" class="me-3"></div>
                 <a th:href="@{'/' + ${member.memberId}}" class="btn custom-btn" style="margin-right: 5px;">내 정보</a>
                 <a th:href="@{/logout}" class="btn custom-btn">로그아웃</a>
             </div>
