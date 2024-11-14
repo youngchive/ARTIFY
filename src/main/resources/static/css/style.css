@@ -35,3 +35,33 @@
     color: black;
     border: none;
 }
+
+.comment-edit-textarea-size {
+    height: 200px;
+    width: 800px;
+    resize: none;
+}
+
+.comment-add-textarea-size {
+    height: 100px;
+    resize: none;
+}
+
+.comment-table-align {
+    vertical-align: middle;
+}
+
+.comment-add-time-size {
+    width: 120px;
+}
+
+.comment-table-content-size {
+    width: 300px;
+    word-break: break-all;
+}
+
+.comment-edit-time-size {
+    width: 120px;
+    font-size: 0.8em;
+    text-align: left;
+}
