@@ -3,20 +3,19 @@
 ## 💬 설명
 
 > 'Art'와 'Amplify'를 결합한 이름으로, 예술과 공연 정보를 널리 알리자는 의미를 담고 있습니다.
----
+<br>
 
 ## 👀 목적
 
 > 예술과 공연에 관심 있는 사람들에게 전시회, 공연, 영화 상영 등 다양한 문화 이벤트 정보를 한곳에 모아
 > 제공하여, 사용자들이 필요한 정보를 쉽고 빠르게 얻을 수 있도록 합니다.
-___
+<br>
 
 ## ⚙️ 기술 스택
 
 ### 백엔드
 
-<img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
-<img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
+<img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
 <img src="https://img.shields.io/badge/JdbcTemplate-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
 <img src="https://img.shields.io/badge/Spring%20Data%20JPA-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=spring&logoColor=white">
@@ -24,14 +23,13 @@ ___
 
 ### 프론트엔드
 
-<img src="https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white">
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white">
+<img src="https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white">
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white"/>
 <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
 <img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white">
 <img src="https://img.shields.io/badge/thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white"/>
 
-___
+<br>
 
 ## 📁 프로젝트 구조
 
@@ -51,17 +49,17 @@ src
         └── application.yml
 ```
 
-___
+<br>
 
 ## 🧩 ERD
 
 ![boardERD](./assets/boardERD.png)
-___
+<br>
 
 ## ⛓️ 와이어 프레임
 
 ![wireframe](./assets/wireframe.png)
-___
+<br>
 
 ## 🚨 주요 엔티티
 
@@ -72,7 +70,7 @@ ___
 * 게시판 이미지 : 게시판에서 업로드된 이미지의 원본 이름과 서버에 저장되는 이름을 포함
 * 게시글 이미지 : 게시글에서 업로드된 이미지의 원본 이름과 서버에 저장되는 이름을 포함
 
-___
+<br>
 
 ## 🔥 주요기능
 
@@ -96,7 +94,7 @@ ___
     * 이미지는 회원이 업로드한 이름과 서버에 저장되는 이름이 달라야 한다.
     * 회원이 업로드한 이미지는 프로젝트 디렉토리 외부에 저장되어야 한다.
 
----
+<br>
 
 ## 🌐 API 문서
 
@@ -128,7 +126,7 @@ ___
 |  댓글  | 댓글 삭제	 |         본인이 작성한 댓글만 삭제 가능         | 함기용 |
 |  댓글  | 수정시간	  |         댓글 수정 시 수정 시간 표시          | 함기용 |
 
----
+<br>
 
 # 🛠️ 커밋 컨벤션
 
